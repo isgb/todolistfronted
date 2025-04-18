@@ -1,0 +1,25 @@
+header{
+    background-color: #FFB035;
+}
+
+header > .row {
+    padding-top: 11%;
+    padding-bottom: 20%;
+}
+
+.container-menu-and-title{
+    color: #ffffff;
+}
+
+.container-menu-and-title > h3 {
+    padding-left: 10px;
+}
+
+.container-button{
+    border: none;
+}
+
+.container-button > button{
+    background-color: white;
+    color: #FFB035;
+}
