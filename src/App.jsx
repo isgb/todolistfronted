@@ -1,5 +1,6 @@
 
 import { TaskContainer } from './components/TaskContainer/TaskContainer';
+import '@fontsource/poppins'; // Asegúrate de usar el nombre correcto
 
 function App() {
 

@@ -11,6 +11,10 @@ body {
     background-color: #CECDC8;
 }
 
+body {
+    font-family: 'Poppins', sans-serif;
+}
+
 .main-container {
     display: flex;
     flex-direction: column;
