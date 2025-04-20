@@ -1,17 +1,25 @@
-.card-tasks{
+.container-cardslist {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+
+}
+
+.card-tasks {
     background-color: #FEFEFE;
     border-radius: 18px;
     width: 90%;
 }
 
-.card-information > h4 {
+.card-information>h4 {
     font-size: 14px;
     margin-top: 14px;
     font-weight: 900;
 }
 
-.card-information > p {
-    font-size: 12px;
+.card-information>p {
+    font-size: 10px;
     margin: 0;
     margin-bottom: 14px;
 }
