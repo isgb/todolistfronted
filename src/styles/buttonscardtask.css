@@ -3,12 +3,19 @@
 }
 
 .iconButton > .icon-trash{
-    border: 1px solid black;
-    padding: 90%;
+    border: 4px solid #FBB03C;
+    padding: 50%;
     border-style: none none solid solid;
+    color: #CDCDCF;
+    border-bottom-left-radius: 10px 10px;
+    height: 80%;
 }
 
 .iconButton > .icon-anglesdown{
     border: 1px solid black;
     padding: 90%;
+}
+
+.container-buttons{
+    overflow: hidden;
 }

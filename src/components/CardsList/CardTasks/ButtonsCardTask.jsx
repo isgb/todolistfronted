@@ -7,8 +7,11 @@ export const ButtonsCardTask = () => {
   return (
     <div className="col-2 container-buttons-card-tasks d-flex flex-column justify-content-between align-items-center">
       
-      <div className="iconButton">
-        <FontAwesomeIcon icon={faTrash} className="icon-trash"/>
+      <div className="iconButton ms-2">
+        <FontAwesomeIcon 
+            icon={faTrash} 
+            className="icon-trash"
+        />
       </div>
       
       <div className="iconButton">
