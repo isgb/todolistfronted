@@ -5,7 +5,7 @@ export const CardTasks = () => {
   return (
     <div className="row justify-content-between card-tasks">
       
-      <div className="col-2 porcentaje">
+      <div className="col-3 porcentaje d-flex justify-content-center align-content-center">
         <div className="content-circularprogressbar d-flex align-items-center justify-content-center">
           <CircularProgressbar
             value={75}
@@ -19,7 +19,7 @@ export const CardTasks = () => {
         </div>
       </div>
 
-      <div className="col-8 card-information">
+      <div className="col-7 card-information">
         <h4>Add Your Task List</h4>
         <p>
           Lorem ipsum dolor sit amet consectetur adipisicing elit. Doloremque

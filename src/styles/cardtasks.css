@@ -5,15 +5,13 @@
 }
 
 .card-information > h4 {
-    font-size: 16px;
+    font-size: 14px;
+    margin-top: 14px;
+    font-weight: 900;
 }
 
 .card-information > p {
     font-size: 12px;
     margin: 0;
-}
-
-.content-circularprogressbar{
-    width: 180%; 
-    height: 100%; /* Asegura que ocupe el alto del contenedor */
+    margin-bottom: 14px;
 }
