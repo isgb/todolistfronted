@@ -1,3 +1,9 @@
+.card-tasks{
+    background-color: #FEFEFE;
+    border-radius: 18px;
+    width: 90%;
+}
+
 .card-information > h4 {
     font-size: 16px;
 }
