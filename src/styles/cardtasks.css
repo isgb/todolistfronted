@@ -1,0 +1,12 @@
+.card-information > h4 {
+    font-size: 16px;
+}
+
+.card-information > p {
+    font-size: 12px;
+}
+
+.content-circularprogressbar{
+    width: 130%; 
+    height: 100%; /* Asegura que ocupe el alto del contenedor */
+}

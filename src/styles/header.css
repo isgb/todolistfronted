@@ -5,6 +5,7 @@ header{
 header > .row {
     padding-top: 11%;
     padding-bottom: 20%;
+    margin: auto 2%;
 }
 
 .container-menu-and-title{
@@ -12,7 +13,12 @@ header > .row {
 }
 
 .container-menu-and-title > h3 {
-    padding-left: 10px;
+    padding-left: 17px;
+    font-weight: bolder;
+}
+
+.row > .container-menu-and-title{
+    padding: 0;
 }
 
 .container-button{
@@ -22,4 +28,26 @@ header > .row {
 .container-button > button{
     background-color: white;
     color: #FFB035;
+    width: 114%;
+    box-shadow: 2px 2px 3px rgba(0.6, 0, 0, 0.2);
+}
+
+.container-button > .btn:hover {
+    background-color: white;
+    color: #FFB035;
+}
+
+.no-active-check:checked+.no-active,
+.no-active.active,
+.no-active.show,
+.no-active:first-child:active,
+:not(.no-active-check)+.no-active:active {
+    background-color: white !important; /* Fondo blanco */
+    color: #FFB035 !important; /* Color del texto */
+    border-color: #FFB035 !important; /* Mantener el borde con el mismo color */
+    box-shadow: none !important; /* Evita el efecto de sombra */
+}
+
+.iconMenu{ 
+    cursor: pointer;
 }
