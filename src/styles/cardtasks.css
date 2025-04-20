@@ -10,9 +10,10 @@
 
 .card-information > p {
     font-size: 12px;
+    margin: 0;
 }
 
 .content-circularprogressbar{
-    width: 130%; 
+    width: 180%; 
     height: 100%; /* Asegura que ocupe el alto del contenedor */
 }
