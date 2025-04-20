@@ -8,11 +8,11 @@ export const ButtonsCardTask = () => {
     <div className="col-2 container-buttons-card-tasks d-flex flex-column justify-content-between align-items-center">
       
       <div className="iconButton">
-        <FontAwesomeIcon icon={faTrash} />
+        <FontAwesomeIcon icon={faTrash} className="icon-trash"/>
       </div>
       
       <div className="iconButton">
-        <FontAwesomeIcon icon={faAnglesDown} />
+        <FontAwesomeIcon icon={faAnglesDown} className="icon-anglesdown" />
       </div>
       
     </div>
