@@ -1,0 +1,29 @@
+/* Pantallas extra grandes */
+@media (min-width: 1400px){
+    .container-buttons-card-tasks {
+        position: relative; /* Mantiene referencia para elementos absolutos */
+    }
+    
+    .iconButton.ms-3 {
+        position: absolute;
+        top: 75px; /* Lo eleva sobre la card */
+        left: 30%; /* Centra el ícono */
+        transform: translateX(-50%); /* Ajusta la posición horizontal */
+        z-index: 10; /* Lo pone encima */
+    }
+}
+
+/* Pantallas extra grandes */
+@media (min-width: 1500px){
+    .container-buttons-card-tasks {
+        position: relative; /* Mantiene referencia para elementos absolutos */
+    }
+    
+    .iconButton.ms-3 {
+        position: absolute;
+        top: 62px; /* Lo eleva sobre la card */
+        left: 32%; /* Centra el ícono */
+        transform: translateX(-50%); /* Ajusta la posición horizontal */
+        z-index: 10; /* Lo pone encima */
+    }
+}
