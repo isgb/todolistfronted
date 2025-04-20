@@ -2,7 +2,6 @@
     cursor: pointer;
 }
 
-.iconButton > .icon-anglesdown,
 .iconButton > .icon-trash{
     border: 1px solid black;
     padding: 90%;
