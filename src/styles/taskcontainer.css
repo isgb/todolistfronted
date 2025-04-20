@@ -10,6 +10,7 @@
   overflow: auto;
   -ms-overflow-style: none; /* Para Internet Explorer y Edge */
   scrollbar-width: none; /* Para Firefox */
+  position: relative;
 }
 
 .main-container::-webkit-scrollbar {
