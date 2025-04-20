@@ -6,7 +6,7 @@ import React from "react";
 export const ButtonsCardTask = () => {
   return (
     <div className="col-2 container-buttons-card-tasks d-flex flex-column justify-content-between align-items-center">
-      <div className="iconButton ms-2 mb-2">
+      <div className="iconButton ms-1 mb-2">
         <FontAwesomeIcon icon={faTrash} className="icon-trash" />
       </div>
 
