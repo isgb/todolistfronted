@@ -1,15 +1,17 @@
 import React from "react";
-// import "../../styles/cardtasks.css";
+import "../../styles/cardtasks.css";
 import "react-circular-progressbar/dist/styles.css";
-// import { CardTasks } from "./CardTasks/CardTasks";
-import TaskConnectors from "./CardTasks/TaskConnectors";
+import { CardTasks } from "./CardTasks/CardTasks";
+import { TaskItem } from "./CardTasks/TaskItem/TaskItem";
 
 export const CardsList = () => {
   return (
     <section className="container container-cardslist justify-content-center align-content-center">
-      {/* Card que muestra las tasks */}
-      {/* <CardTasks /> */}
-      {/* <TaskConnectors/> */}
+      
+      {/* muestra la Card de información con su respectiva lista de tasks */}
+        <CardTasks />
+        <TaskItem/>
+
     </section>
   );
 };

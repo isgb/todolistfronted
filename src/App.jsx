@@ -7,7 +7,7 @@ function App() {
 
   return (
     <section className='main-container'>
-      {/* Contenedor de la  */}
+      {/* Contenedor de la app */}
       <AppContainer/>
 
     </section>
