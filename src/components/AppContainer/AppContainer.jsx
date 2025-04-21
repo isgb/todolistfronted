@@ -10,7 +10,7 @@ export const AppContainer = () => {
       <Header />
 
       {/* Lista de cards */}
-     <CardsList/>
+      <CardsList/>
     </section>
   );
 };

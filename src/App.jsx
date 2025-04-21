@@ -9,7 +9,6 @@ function App() {
     <section className='main-container'>
       {/* Contenedor de la app */}
       <AppContainer/>
-
     </section>
   )
 }

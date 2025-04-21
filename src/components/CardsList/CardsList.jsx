@@ -6,12 +6,10 @@ import { TaskItem } from "./CardTasks/TaskItem/TaskItem";
 
 export const CardsList = () => {
   return (
-    <section className="container container-cardslist justify-content-center align-content-center">
-      
-      {/* muestra la Card de información con su respectiva lista de tasks */}
+    <>
+      <section className="container container-cardslist justify-content-center align-content-center">
         <CardTasks />
-        <TaskItem/>
-
-    </section>
+      </section>
+    </>
   );
 };
