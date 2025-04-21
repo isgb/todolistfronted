@@ -3,7 +3,7 @@ import "../../styles/taskcontainer.css";
 import { Header } from "../Header/Header";
 import { CardsList } from "../CardsList/CardsList";
 
-export const TaskContainer = () => {
+export const AppContainer = () => {
   return (
     <section className="task-container">
       {/* Header de la app ToDo-List */}
