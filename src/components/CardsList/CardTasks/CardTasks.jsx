@@ -14,7 +14,6 @@ export const CardTasks = () => {
 
       {/* Botones de la card */}
       <ButtonsCardTask/>
-
     </div>
   );
 };

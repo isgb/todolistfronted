@@ -12,15 +12,16 @@
     border-radius: 18px;
     width: 90%;
     margin-bottom: 5%;
+    box-shadow: 2px 2px 3px rgba(0.6, 0, 0, 0.2);
 }
 
-.card-information>h4 {
+.card-information > h4 {
     font-size: 14px;
     margin-top: 14px;
     font-weight: 900;
 }
 
-.card-information>p {
+.card-information > p {
     font-size: 10px;
     margin: 0;
     margin-bottom: 14px;
