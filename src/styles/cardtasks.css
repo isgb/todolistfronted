@@ -26,3 +26,11 @@
     margin: 0;
     margin-bottom: 14px;
 }
+
+.container-card-tasks{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-content: center;
+    align-items: center;
+}

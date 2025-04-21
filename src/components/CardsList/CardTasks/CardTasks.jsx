@@ -6,8 +6,8 @@ import { TaskItem } from "./TaskItem/TaskItem";
 
 export const CardTasks = () => {
   return (
-    <>
-    
+    <div className="container-card-tasks">
+
       {/* Card descriptivo de tareas */}
       <div className="row justify-content-between card-tasks">
         {/* CircularProgressBar Component */}
@@ -21,6 +21,6 @@ export const CardTasks = () => {
       {/* Lista de tareas */}
       <TaskItem />
 
-    </>
+    </div>
   );
 };
