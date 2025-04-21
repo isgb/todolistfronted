@@ -1,13 +1,13 @@
 import React from "react";
 import "../../../../styles/TaskItem.css";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faSquareCheck } from "@fortawesome/free-solid-svg-icons";
+import { faSquarePollVertical } from "@fortawesome/free-solid-svg-icons";
 
 export const TaskItem = () => {
   return (
     <section className="task row justify-content-between card-task">
       <div className="iconButton col-2">
-        <FontAwesomeIcon icon={faSquareCheck} />
+        <FontAwesomeIcon icon={faSquarePollVertical} />
       </div>
 
       <p className="col-10">
