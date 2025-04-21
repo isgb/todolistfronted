@@ -9,6 +9,10 @@ export const CardsList = () => {
     <>
       <section className="container container-cardslist justify-content-center align-content-center">
         <CardTasks />
+        <CardTasks />
+        <CardTasks />
+        <CardTasks />
+        <CardTasks />
       </section>
     </>
   );
