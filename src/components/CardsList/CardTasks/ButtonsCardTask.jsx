@@ -6,22 +6,10 @@ import {
 } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import "../../../styles/buttonscardtask.css";
-import React, { useCallback, useState } from "react";
+import { useIconContext } from "../../../context/IconContext.jsx";
 
 export const ButtonsCardTask = () => {
-  const [iconState, setIconState] = useState({
-    showTrashIcon: false,
-    showIconAngle: false,
-  });
-
-  const handleChange = useCallback(() => {
-    console.log("Cambio");
-    setIconState((prev) => ({
-      showIconAngle: !prev.showIconAngle,
-      showTrashIcon: !prev.showTrashIcon,
-    }));
-  }, []);
-
+  const { iconState, handleChange } = useIconContext();
   return (
     <div className="col-2 container-buttons-card-tasks d-flex flex-column justify-content-between align-items-center">
       <div className="iconButton ms-1 mb-2">
