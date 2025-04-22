@@ -13,7 +13,7 @@
 
 .iconButton > .icon-anglesdown{
     border: 1px solid #FBB03C;
-    padding: 20%;
+    /* padding: 20%; */
     color: #FDFDFD;
     background-color: #FBB03C;
     border-radius: 10%;
@@ -30,7 +30,7 @@
 .iconButton.ms-3 {
     position: absolute;
     top: 58px; /* Lo eleva sobre la card */
-    left: 41%; /* Centra el ícono */
+    left: 51%; /* Centra el ícono */
     transform: translateX(-50%); /* Ajusta la posición horizontal */
     z-index: 10; /* Lo pone encima */
 }

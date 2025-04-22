@@ -21,8 +21,9 @@ export const ButtonsCardTask = ({iconState,handleChange}) => {
         <FontAwesomeIcon
           icon={!iconState.showIconAngle ? faAnglesDown : faAnglesUp}
           className="icon-anglesdown"
-          size="2x"
+          // size="2x"
           onClick={handleChange}
+          style={{height: "30px", width: "30px"}}
         />
       </div>
     </div>
