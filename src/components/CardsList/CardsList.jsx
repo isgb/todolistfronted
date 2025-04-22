@@ -7,10 +7,10 @@ export const CardsList = () => {
   const [datos, setDatos] = useState([]);
 
   useEffect(() => {
-    fetch('/data/cardsTasks.json')
+    fetch("/data/cardsTasks.json")
       .then((response) => response.json())
       .then((data) => setDatos(data))
-      .catch((error) => console.error('Error al cargar los datos:', error));
+      .catch((error) => console.error("Error al cargar los datos:", error));
   }, []);
 
   // console.log(datos[0].cardsTasks)
@@ -19,7 +19,6 @@ export const CardsList = () => {
     <>
       <section className="container container-cardslist justify-content-center align-content-center">
         <CardTasks />
-        
       </section>
     </>
   );
