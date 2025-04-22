@@ -13,10 +13,13 @@ export const CardsList = () => {
       .catch((error) => console.error('Error al cargar los datos:', error));
   }, []);
 
+  // console.log(datos[0].cardsTasks)
+
   return (
     <>
       <section className="container container-cardslist justify-content-center align-content-center">
         <CardTasks />
+        
       </section>
     </>
   );
