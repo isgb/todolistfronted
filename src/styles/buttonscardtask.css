@@ -19,10 +19,6 @@
     border-radius: 10%;
 }
 
-/* .container-buttons-card-tasks{
-    overflow: hidden;
-} */
-
 .container-buttons-card-tasks {
     position: relative; /* Mantiene referencia para elementos absolutos */
 }
