@@ -1,20 +1,42 @@
-import { faAnglesDown, faTrash } from "@fortawesome/free-solid-svg-icons";
+import {
+  faAnglesDown,
+  faAnglesUp,
+  faPlus,
+  faTrash,
+} from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import "../../../styles/buttonscardtask.css";
-import React from "react";
+import React, { useCallback, useState } from "react";
 
 export const ButtonsCardTask = () => {
+  const [iconState, setIconState] = useState({
+    showTrashIcon: false,
+    showIconAngle: false,
+  });
+
+  const handleChange = useCallback(() => {
+    console.log("Cambio");
+    setIconState((prev) => ({
+      showIconAngle: !prev.showIconAngle,
+      showTrashIcon: !prev.showTrashIcon,
+    }));
+  }, []);
+
   return (
     <div className="col-2 container-buttons-card-tasks d-flex flex-column justify-content-between align-items-center">
       <div className="iconButton ms-1 mb-2">
-        <FontAwesomeIcon icon={faTrash} className="icon-trash" />
+        <FontAwesomeIcon
+          icon={!iconState.showTrashIcon ? faTrash : faPlus}
+          className="icon-trash"
+        />
       </div>
 
       <div className="iconButton ms-3">
         <FontAwesomeIcon
-          icon={faAnglesDown}
+          icon={!iconState.showIconAngle ? faAnglesDown : faAnglesUp}
           className="icon-anglesdown"
           size="2x"
+          onClick={handleChange}
         />
       </div>
     </div>
