@@ -6,10 +6,8 @@ import {
 } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import "../../../styles/buttonscardtask.css";
-import { useIconContext } from "../../../context/IconContext.jsx";
 
-export const ButtonsCardTask = () => {
-  const { iconState, handleChange } = useIconContext();
+export const ButtonsCardTask = ({iconState,handleChange}) => {
   return (
     <div className="col-2 container-buttons-card-tasks d-flex flex-column justify-content-between align-items-center">
       <div className="iconButton ms-1 mb-2">

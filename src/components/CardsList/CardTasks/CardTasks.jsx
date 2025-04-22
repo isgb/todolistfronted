@@ -1,15 +1,22 @@
-import React from "react";
+import React, { useCallback, useState } from "react";
 import { CircularProgressBar } from "./CircularProgressbar";
 import { CardInformation } from "./CardInformation";
 import { ButtonsCardTask } from "./ButtonsCardTask";
 import { TaskItem } from "./TaskItem/TaskItem";
-import { useIconContext } from "../../../context/IconContext";
 
 export const CardTasks = () => {
   
-   const { iconState } = useIconContext();
-
-   console.log(iconState)
+     const [iconState, setIconState] = useState({
+       showTrashIcon: false,
+       showIconAngle: false,
+     });
+   
+     const handleChange = useCallback(() => {
+       setIconState((prev) => ({
+         showIconAngle: !prev.showIconAngle,
+         showTrashIcon: !prev.showTrashIcon,
+       }));
+     }, []);
 
   return (
     <div className="container-card-tasks">
@@ -20,7 +27,10 @@ export const CardTasks = () => {
         {/* Card de informacion  */}
         <CardInformation />
         {/* Botones de la card */}
-        <ButtonsCardTask />
+        <ButtonsCardTask 
+         handleChange={handleChange}
+         iconState={iconState}
+        />
       </div>
 
       {/* Lista de tareas */}
