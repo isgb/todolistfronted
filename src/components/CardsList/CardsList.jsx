@@ -18,7 +18,11 @@ export const CardsList = () => {
   return (
     <>
       <section className="container container-cardslist justify-content-center align-content-center">
-        <CardTasks />
+        {
+          datos[0].cardsTasks.map((cardTasks) => {
+            return <CardTasks cardTasks={cardTasks}/>
+          })
+        }
       </section>
     </>
   );
