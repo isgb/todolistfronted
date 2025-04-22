@@ -4,8 +4,9 @@ import { ButtonsCardTask } from "./ButtonsCardTask";
 import { TaskItem } from "./TaskItem/TaskItem";
 import { useHandleIcons } from "../../../hooks/useHandleIcons";
 
-export const CardTasks = () => {
+export const CardTasks = ({cardTasks}) => {
   
+  // const {title, description} = cardTasks;
   const { iconState, handleChange } = useHandleIcons();
 
   return (
@@ -15,7 +16,7 @@ export const CardTasks = () => {
         {/* CircularProgressBar Component */}
         <CircularProgressBar />
         {/* Card de informacion  */}
-        <CardInformation />
+        <CardInformation  />
         {/* Botones de la card */}
         <ButtonsCardTask handleChange={handleChange} iconState={iconState} />
       </div>

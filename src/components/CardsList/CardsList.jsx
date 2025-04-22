@@ -13,16 +13,17 @@ export const CardsList = () => {
       .catch((error) => console.error("Error al cargar los datos:", error));
   }, []);
 
-  // console.log(datos[0].cardsTasks)
+  // console.log(datos ? datos.cardsTasks[0].title : [])
+  console.log(datos?.cardsTasks?.[0]?.title );
 
   return (
     <>
       <section className="container container-cardslist justify-content-center align-content-center">
-        {
+        {/* {
           datos[0].cardsTasks.map((cardTasks) => {
-            return <CardTasks cardTasks={cardTasks}/>
+            return <p>{cardTasks.title}</p>
           })
-        }
+        } */}
       </section>
     </>
   );
