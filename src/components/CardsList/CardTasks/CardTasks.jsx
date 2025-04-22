@@ -5,6 +5,7 @@ import { TaskItem } from "./TaskItem/TaskItem";
 import { useHandleIcons } from "../../../hooks/useHandleIcons";
 
 export const CardTasks = () => {
+  
   const { iconState, handleChange } = useHandleIcons();
 
   return (
