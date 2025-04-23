@@ -4,8 +4,9 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCheck, faTrash } from "@fortawesome/free-solid-svg-icons";
 import { useHandleIcons } from "../../../../hooks/useHandleIcons";
 
-export const TaskItem = () => {
+export const TaskItem = ({task}) => {
 
+  const {description} = task;
   const { iconCheck, handleCheckChange } = useHandleIcons();
 
   return (
@@ -20,7 +21,7 @@ export const TaskItem = () => {
 
       <div className="col-8 description-task">
         <h4 className={iconCheck ? 'text-decoration-line-through' : ''}>
-          Add Your Task List
+          {description || 'Add an description'}
         </h4>
       </div>
 
