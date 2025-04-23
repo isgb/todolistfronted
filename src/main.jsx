@@ -5,7 +5,7 @@ import "bootstrap/dist/css/bootstrap.min.css";
 import "bootstrap/dist/js/bootstrap.bundle.min.js";
 import "./styles/global.css";
 import "./styles/breakpoints.css";
-import TasksProvider from "./context/TasksContext.jsx";
+import {TasksProvider} from "./context/TasksContext.jsx";
 
 createRoot(document.getElementById("root")).render(
   <StrictMode>
