@@ -1,13 +1,12 @@
 import { CircularProgressBar } from "./CircularProgressbar";
 import { CardInformation } from "./CardInformation";
 import { ButtonsCardTask } from "./ButtonsCardTask";
-import { TaskItem } from "./TaskItem/TaskItem";
 import { useHandleIcons } from "../../../hooks/useHandleIcons";
 import { TasksList } from "./TasksList";
 
-export const CardTasks = ({cardTasks}) => {
+export const CardTasks = ({cardTasks, indexCard}) => {
   
-  const {title,description, tasks} = cardTasks;
+  const {title, description, tasks} = cardTasks;
 
   const { iconState, handleChange } = useHandleIcons();
 
@@ -25,7 +24,8 @@ export const CardTasks = ({cardTasks}) => {
         {/* Botones de la card */}
         <ButtonsCardTask 
           handleChange={handleChange} 
-          iconState={iconState} 
+          iconState={iconState}
+          indexCard={indexCard} 
         />
       </div>
 

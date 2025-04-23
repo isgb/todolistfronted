@@ -14,7 +14,7 @@ export const CardsList = () => {
         {
           tasks?.cardsTasks?.length > 0 ? (
             tasks.cardsTasks.map((cardTasks, index) => {
-              return <CardTasks key={index} cardTasks={cardTasks} />
+              return <CardTasks key={index} cardTasks={cardTasks} indexCard={index}/>
             })
           ) : (
             <CardNoTasksAvaible />

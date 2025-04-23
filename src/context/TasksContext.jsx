@@ -19,6 +19,11 @@ export const TasksProvider = ({ children }) => {
     });
   }
 
+  const deleteCardTask = (index) => {
+    const updatedTasks = tasks.cardsTasks.filter((_, i) => i !== index);
+    setTasks({ ...tasks, cardsTasks: updatedTasks });
+  }
+
   useEffect(() => {
     const handleData = async () => {
       const response = await fetch("/data/cardsTasks.json", {
@@ -35,7 +40,12 @@ export const TasksProvider = ({ children }) => {
   }, []);
 
   return (
-    <TasksContext.Provider value={{ tasks, setTasks, newCardTask }}>
+    <TasksContext.Provider value={{ 
+        tasks, 
+        setTasks, 
+        newCardTask,
+        deleteCardTask 
+      }}>
       {children}
     </TasksContext.Provider>
   );

@@ -6,17 +6,30 @@ import {
 } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import "../../../styles/buttonscardtask.css";
+import { useTasksContext } from "../../../context/TasksContext";
 
-export const ButtonsCardTask = ({iconState,handleChange}) => {
+export const ButtonsCardTask = ({iconState,handleChange,indexCard}) => {
+
+  const {deleteCardTask} = useTasksContext();
+
+  const handleDeleteCardTask = () => {
+    if(!iconState.showTrashIcon) {
+      deleteCardTask(indexCard);
+    }
+  };
+
   return (
     <div className="col-2 container-buttons-card-tasks d-flex flex-column justify-content-between align-items-center">
+      {/* Botón Eliminar */}
       <div className="iconButton ms-1 mb-2">
         <FontAwesomeIcon
           icon={!iconState.showTrashIcon ? faTrash : faPlus}
           className="icon-trash"
+          onClick={handleDeleteCardTask}
         />
       </div>
 
+      {/* Botón Desplegar */}
       <div className="iconButton ms-3">
         <FontAwesomeIcon
           icon={!iconState.showIconAngle ? faAnglesDown : faAnglesUp}
