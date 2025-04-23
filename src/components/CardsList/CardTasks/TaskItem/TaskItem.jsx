@@ -6,8 +6,8 @@ import { useHandleIcons } from "../../../../hooks/useHandleIcons";
 
 export const TaskItem = ({task}) => {
 
-  const {description} = task;
-  const { iconCheck, handleCheckChange } = useHandleIcons();
+  const {description, isCompleted} = task;
+  const { iconCheck, handleCheckChange } = useHandleIcons(isCompleted);
 
   return (
     <section className="task row justify-content-between card-task me-3">

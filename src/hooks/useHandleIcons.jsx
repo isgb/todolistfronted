@@ -1,9 +1,9 @@
 import { useCallback, useState } from "react";
 
 
-export const useHandleIcons = () => {
+export const useHandleIcons = (isCompleted = false) => {
 
-      const [iconCheck, setIconCheck] = useState(false)
+      const [iconCheck, setIconCheck] = useState(isCompleted)
 
       const [iconState, setIconState] = useState({
         showTrashIcon: false,
