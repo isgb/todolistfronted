@@ -19,7 +19,7 @@ export const TaskItem = () => {
       </div>
 
       <div className="col-8 description-task">
-        <h4 className={iconCheck && 'text-decoration-line-through'}>
+        <h4 className={iconCheck ? 'text-decoration-line-through' : ''}>
           Add Your Task List
         </h4>
       </div>

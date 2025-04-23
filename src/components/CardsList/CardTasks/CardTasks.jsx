@@ -3,10 +3,11 @@ import { CardInformation } from "./CardInformation";
 import { ButtonsCardTask } from "./ButtonsCardTask";
 import { TaskItem } from "./TaskItem/TaskItem";
 import { useHandleIcons } from "../../../hooks/useHandleIcons";
+import { TasksList } from "./TasksList";
 
 export const CardTasks = ({cardTasks}) => {
   
-  const {title,description} = cardTasks;
+  const {title,description, tasks} = cardTasks;
 
   const { iconState, handleChange } = useHandleIcons();
 
@@ -29,7 +30,11 @@ export const CardTasks = ({cardTasks}) => {
       </div>
 
       {/* Lista de tareas */}
-      {iconState.showIconAngle && <TaskItem />}
+      <TasksList
+        iconState={iconState}
+        tasks={tasks}
+      />
+
     </div>
   );
 };
