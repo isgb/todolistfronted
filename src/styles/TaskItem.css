@@ -10,8 +10,6 @@
 }
 
 .card-task>.iconButton>.icon-checkbox {
-    background-color: #F1F1EF;
-    color: #C3C3C1;
     border-radius: 20%;
     width: 30px;
     height: 30px;
@@ -20,6 +18,16 @@
     cursor: pointer;
     height: 29%;
     padding: 21%;
+}
+
+.color-check-principal {
+    background-color: #F1F1EF;
+    color: #C3C3C1;
+}
+
+.color-check-change {
+    background-color: #FFB035;
+    color: #ffffff;
 }
 
 .description-task {

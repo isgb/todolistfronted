@@ -3,6 +3,8 @@ import { useCallback, useState } from "react";
 
 export const useHandleIcons = () => {
 
+      const [iconCheck, setIconCheck] = useState(false)
+
       const [iconState, setIconState] = useState({
         showTrashIcon: false,
         showIconAngle: false,
@@ -15,8 +17,14 @@ export const useHandleIcons = () => {
         }));
       }, []);
 
+      const handleCheckChange = useCallback(() => {
+        setIconCheck(prev => !prev);
+      }, []);
+
       return {
         handleChange,
-        iconState
+        handleCheckChange,
+        iconState,
+        iconCheck
       }
 }
