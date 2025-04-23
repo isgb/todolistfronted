@@ -3,9 +3,11 @@ import "../../styles/cardtasks.css";
 import "react-circular-progressbar/dist/styles.css";
 import { CardTasks } from "./CardTasks/CardTasks";
 import { CardNoTasksAvaible } from "./CardNoTasksAvaible";
+import { useTasksContext } from "../../context/TasksContext";
 
 export const CardsList = () => {
-  const [datos, setDatos] = useState([]);
+  // const [datos, setDatos] = useState([]);
+  const {tasks, setTasks} = useTasksContext();
 
   useEffect(() => {
 
@@ -17,7 +19,7 @@ export const CardsList = () => {
         },
       });
       const data = await response.json();
-      setDatos(data);
+      setTasks(data);
     }
 
     handleData();
@@ -27,8 +29,8 @@ export const CardsList = () => {
     <>
       <section className="container container-cardslist justify-content-center align-content-center">
         {
-          datos?.cardsTasks?.length > 0 ? (
-            datos.cardsTasks.map((cardTasks, index) => {
+          tasks?.cardsTasks?.length > 0 ? (
+            tasks.cardsTasks.map((cardTasks, index) => {
               return <CardTasks key={index} cardTasks={cardTasks} />
             })
           ) : (
