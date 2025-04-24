@@ -20,12 +20,24 @@ export const CardTasks = ({ cardTasks, indexCard }) => {
     setTasksList([newTask, ...tasksList]);
   };
 
+  const handlePercentageSelectedChecks = () => {
+    const totalTasks = tasksList.length;
+    const completedTasks = tasksList.filter((task) => task.isCompleted).length;
+
+    const percentage =
+      totalTasks === 0 ? 0 : Math.round((completedTasks / totalTasks) * 100);
+
+      return percentage
+  };
+
   return (
     <div className="container-card-tasks">
       {/* Card descriptivo de tareas */}
       <div className="row justify-content-between card-tasks">
         {/* CircularProgressBar Component */}
-        <CircularProgressBar />
+        <CircularProgressBar 
+          percentage={handlePercentageSelectedChecks()}
+        />
         {/* Card de informacion  */}
         <CardInformation title={title} description={description} />
         {/* Botones de la card */}

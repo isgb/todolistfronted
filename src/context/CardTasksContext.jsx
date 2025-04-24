@@ -9,7 +9,6 @@ export const CardTasksProvider = ({ children }) => {
 
   // Metodo para agregar una card tasks
   const newCardTask = () => {
-
     // Nueva card tasks
     const newCardTask = {
       id: uuidv4(),
@@ -23,20 +22,21 @@ export const CardTasksProvider = ({ children }) => {
       ...cardTasksItem,
       cardsTasks: [newCardTask, ...cardTasksItem.cardsTasks],
     });
-  }
+  };
 
   // Metodo para borrar una card tasks
   const deleteCardTask = (idToDelete) => {
     setCardTasksItem((prevState) => {
-      const updatedCardsTasks = prevState.cardsTasks.filter(card => card.id !== idToDelete);
-  
+      const updatedCardsTasks = prevState.cardsTasks.filter(
+        (card) => card.id !== idToDelete
+      );
+
       return {
         ...prevState,
         cardsTasks: updatedCardsTasks,
       };
     });
   };
-  
 
   useEffect(() => {
     const formatCardsDataWithIds = (data) => {
@@ -68,12 +68,14 @@ export const CardTasksProvider = ({ children }) => {
   }, []);
 
   return (
-    <CardTasksContext.Provider value={{ 
-        cardTasksItem, 
-        setCardTasksItem, 
+    <CardTasksContext.Provider
+      value={{
+        cardTasksItem,
+        setCardTasksItem,
         newCardTask,
-        deleteCardTask 
-      }}>
+        deleteCardTask,
+      }}
+    >
       {children}
     </CardTasksContext.Provider>
   );
@@ -82,7 +84,9 @@ export const CardTasksProvider = ({ children }) => {
 export const useCardTasksContext = () => {
   const context = useContext(CardTasksContext);
   if (!context) {
-    throw new Error("useCardTasksContext must be used within an CardTasksProvider");
+    throw new Error(
+      "useCardTasksContext must be used within an CardTasksProvider"
+    );
   }
   return context;
 };
