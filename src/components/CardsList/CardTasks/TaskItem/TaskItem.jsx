@@ -14,6 +14,13 @@ export const TaskItem = ({task, setTasksList, tasks, indexItem}) => {
     setTasksList(tasksModified)
   }
 
+  const handleDeleteTask = async () => {
+    const tasksModified = tasks.filter((task,index) => {
+        return index !== indexItem
+    })
+    setTasksList(tasksModified)
+  }
+
   return (
     <section className="task row justify-content-between card-task me-3">
       <div className="iconButton col-2 d-flex justify-content-center align-items-center">
@@ -31,7 +38,11 @@ export const TaskItem = ({task, setTasksList, tasks, indexItem}) => {
       </div>
 
       <div className="iconButton col-2 d-flex justify-content-center align-items-center pe-0">
-        <FontAwesomeIcon icon={faTrash} className="icon-trash-task" />
+        <FontAwesomeIcon 
+            icon={faTrash} 
+            className="icon-trash-task" 
+            onClick={() => handleDeleteTask()}
+        />
       </div>
     </section>
   );
