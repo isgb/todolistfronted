@@ -3,10 +3,10 @@ import "../../styles/cardtasks.css";
 import "react-circular-progressbar/dist/styles.css";
 import { CardTasks } from "./CardTasks/CardTasks";
 import { CardNoTasksAvaible } from "./CardNoTasksAvaible";
-import { useTasksContext } from "../../context/TasksContext";
+import { useCardTasksContext } from "../../context/CardTasksContext";
 
 export const CardsList = () => {
-  const {tasks} = useTasksContext();
+  const {tasks} = useCardTasksContext();
 
   return (
     <>

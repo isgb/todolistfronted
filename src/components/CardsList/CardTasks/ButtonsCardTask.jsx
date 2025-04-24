@@ -6,15 +6,17 @@ import {
 } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import "../../../styles/buttonscardtask.css";
-import { useTasksContext } from "../../../context/TasksContext";
+import { useCardTasksContext } from "../../../context/CardTasksContext";
 
-export const ButtonsCardTask = ({iconState,handleChange,indexCard}) => {
+export const ButtonsCardTask = ({iconState,handleChange,handleNewTask,indexCard}) => {
 
-  const {deleteCardTask} = useTasksContext();
+  const {deleteCardTask} = useCardTasksContext();
 
-  const handleDeleteCardTask = () => {
+  const handleCardTask = async () => {
     if(!iconState.showTrashIcon) {
       deleteCardTask(indexCard);
+    }else{
+      await handleNewTask()
     }
   };
 
@@ -25,7 +27,7 @@ export const ButtonsCardTask = ({iconState,handleChange,indexCard}) => {
         <FontAwesomeIcon
           icon={!iconState.showTrashIcon ? faTrash : faPlus}
           className="icon-trash"
-          onClick={handleDeleteCardTask}
+          onClick={handleCardTask}
         />
       </div>
 

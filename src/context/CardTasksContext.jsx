@@ -1,8 +1,8 @@
 import { createContext, useContext, useEffect, useState } from "react";
 
-const TasksContext = createContext();
+const CardTasksContext = createContext();
 
-export const TasksProvider = ({ children }) => {
+export const CardTasksProvider = ({ children }) => {
   const [tasks, setTasks] = useState({});
 
   const newCardTask = () => {
@@ -40,21 +40,21 @@ export const TasksProvider = ({ children }) => {
   }, []);
 
   return (
-    <TasksContext.Provider value={{ 
+    <CardTasksContext.Provider value={{ 
         tasks, 
         setTasks, 
         newCardTask,
         deleteCardTask 
       }}>
       {children}
-    </TasksContext.Provider>
+    </CardTasksContext.Provider>
   );
 };
 
-export const useTasksContext = () => {
-  const context = useContext(TasksContext);
+export const useCardTasksContext = () => {
+  const context = useContext(CardTasksContext);
   if (!context) {
-    throw new Error("useTasksContext must be used within an TasksProvider");
+    throw new Error("useCardTasksContext must be used within an CardTasksProvider");
   }
   return context;
 };

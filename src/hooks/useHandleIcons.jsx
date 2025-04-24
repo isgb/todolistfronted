@@ -25,6 +25,7 @@ export const useHandleIcons = (isCompleted = false) => {
         handleChange,
         handleCheckChange,
         iconState,
-        iconCheck
+        iconCheck,
+        setIconCheck
       }
 }

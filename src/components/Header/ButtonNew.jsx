@@ -1,9 +1,9 @@
 import React from "react";
-import { useTasksContext } from "../../context/TasksContext";
+import { useCardTasksContext } from "../../context/CardTasksContext";
 
 export const ButtonNew = () => {
 
-  const { newCardTask } = useTasksContext();
+  const { newCardTask } = useCardTasksContext();
 
   return (
     <div className="col-auto container-button">

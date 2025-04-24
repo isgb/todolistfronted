@@ -3,12 +3,22 @@ import { CardInformation } from "./CardInformation";
 import { ButtonsCardTask } from "./ButtonsCardTask";
 import { useHandleIcons } from "../../../hooks/useHandleIcons";
 import { TasksList } from "./TasksList";
+import { useState } from "react";
 
-export const CardTasks = ({cardTasks, indexCard}) => {
+export const CardTasks = ({ cardTasks, indexCard }) => {
   
-  const {title, description, tasks} = cardTasks;
-
+  const { title, description, tasks } = cardTasks;
   const { iconState, handleChange } = useHandleIcons();
+  const [tasksList, setTasksList] = useState(tasks || []);
+
+  const handleNewTask = () => {
+    const newTask = {
+      description: "Lorem ipsum dolor sit amet consectetur.",
+      isCompleted: false,
+    };
+
+    setTasksList([newTask, ...tasksList]);
+  };
 
   return (
     <div className="container-card-tasks">
@@ -17,24 +27,22 @@ export const CardTasks = ({cardTasks, indexCard}) => {
         {/* CircularProgressBar Component */}
         <CircularProgressBar />
         {/* Card de informacion  */}
-        <CardInformation
-          title={title}
-          description={description}
-        />
+        <CardInformation title={title} description={description} />
         {/* Botones de la card */}
-        <ButtonsCardTask 
-          handleChange={handleChange} 
+        <ButtonsCardTask
+          handleChange={handleChange}
+          handleNewTask={handleNewTask}
           iconState={iconState}
-          indexCard={indexCard} 
+          indexCard={indexCard}
         />
       </div>
 
       {/* Lista de tareas */}
-      <TasksList
-        iconState={iconState}
-        tasks={tasks}
+      <TasksList 
+        iconState={iconState} 
+        tasks={tasksList} 
+        setTasksList={setTasksList}
       />
-
     </div>
   );
 };
