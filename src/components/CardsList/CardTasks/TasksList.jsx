@@ -9,7 +9,13 @@ export const TasksList = ({ iconState, tasks, setTasksList }) => {
       {iconState.showIconAngle &&
         tasks.length > 0 &&
         tasks.map((task, index) => (
-          <TaskItem key={`${id}-${index}`} task={task} setTasksList={setTasksList} tasks={tasks} indexItem={index} />
+          <TaskItem 
+              key={`${id}-${index}`} 
+              task={task} 
+              setTasksList={setTasksList} 
+              tasks={tasks} 
+              indexItem={index} 
+          />
         ))}
     </>
   );

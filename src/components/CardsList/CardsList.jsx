@@ -6,14 +6,14 @@ import { CardNoTasksAvaible } from "./CardNoTasksAvaible";
 import { useCardTasksContext } from "../../context/CardTasksContext";
 
 export const CardsList = () => {
-  const {tasks} = useCardTasksContext();
+  const {cardTasksItem} = useCardTasksContext();
 
   return (
     <>
       <section className="container container-cardslist justify-content-center align-content-center">
         {
-          tasks?.cardsTasks?.length > 0 ? (
-            tasks.cardsTasks.map((cardTasks, index) => {
+          cardTasksItem?.cardsTasks?.length > 0 ? (
+            cardTasksItem.cardsTasks.map((cardTasks, index) => {
               return <CardTasks key={index} cardTasks={cardTasks} indexCard={index}/>
             })
           ) : (

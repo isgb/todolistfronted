@@ -1,9 +1,9 @@
 import { createContext, useContext, useEffect, useState } from "react";
 
-const CardTasksContext = createContext();
+const TasksContext = createContext();
 
-export const CardTasksProvider = ({ children }) => {
-  const [cardTasksItem, setCardTasksItem] = useState({});
+export const TasksContextProvider = ({ children }) => {
+  const [tasks, setTasks] = useState({});
 
   const newCardTask = () => {
     console.log("entrando")
@@ -13,15 +13,15 @@ export const CardTasksProvider = ({ children }) => {
       tasks: [],
     };
 
-    setCardTasksItem({
-      ...cardTasksItem,
-      cardsTasks: [newCardTask, ...cardTasksItem.cardsTasks],
+    setTasks({
+      ...tasks,
+      cardsTasks: [newCardTask, ...tasks.cardsTasks],
     });
   }
 
   const deleteCardTask = (index) => {
-    const updatedTasks = cardTasksItem.cardsTasks.filter((_, i) => i !== index);
-    setCardTasksItem({ ...cardTasksItem, cardsTasks: updatedTasks });
+    const updatedTasks = tasks.cardsTasks.filter((_, i) => i !== index);
+    setTasks({ ...tasks, cardsTasks: updatedTasks });
   }
 
   useEffect(() => {
@@ -33,28 +33,28 @@ export const CardTasksProvider = ({ children }) => {
         },
       });
       const data = await response.json();
-      setCardTasksItem(data);
+      setTasks(data);
     };
 
     handleData();
   }, []);
 
   return (
-    <CardTasksContext.Provider value={{ 
-        cardTasksItem, 
-        setCardTasksItem, 
+    <TasksContext.Provider value={{ 
+        tasks, 
+        setTasks, 
         newCardTask,
         deleteCardTask 
       }}>
       {children}
-    </CardTasksContext.Provider>
+    </TasksContext.Provider>
   );
 };
 
-export const useCardTasksContext = () => {
-  const context = useContext(CardTasksContext);
+export const useTasksContext = () => {
+  const context = useContext(TasksContext);
   if (!context) {
-    throw new Error("useCardTasksContext must be used within an CardTasksProvider");
+    throw new Error("useTasksContext must be used within an TasksContextProvider");
   }
   return context;
 };
