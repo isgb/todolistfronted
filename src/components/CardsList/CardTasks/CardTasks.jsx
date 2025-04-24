@@ -38,7 +38,11 @@ export const CardTasks = ({ cardTasks, indexCard }) => {
           percentage={handlePercentageSelectedChecks()}
         />
         {/* Card de informacion  */}
-        <CardInformation title={title} description={description} />
+        <CardInformation 
+            title={title} 
+            description={description} 
+            indexCard={indexCard}
+        />
         {/* Botones de la card */}
         <ButtonsCardTask
           handleChange={handleChange}
