@@ -4,7 +4,6 @@ import { useCardTasksContext } from '../../../context/CardTasksContext';
 export const CardInformation = ({ title, description, indexCard }) => {
 
   const [changeToInput, setChangeToInput] = useState(false)
-
    const {handleChangeCardTaskTitle} = useCardTasksContext();
 
   return (
