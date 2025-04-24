@@ -24,8 +24,7 @@ export const CardTasks = ({ cardTasks, indexCard }) => {
     const totalTasks = tasksList.length;
     const completedTasks = tasksList.filter((task) => task.isCompleted).length;
 
-    const percentage =
-      totalTasks === 0 ? 0 : Math.round((completedTasks / totalTasks) * 100);
+    const percentage = totalTasks === 0 ? 0 : Math.round((completedTasks / totalTasks) * 100);
 
       return percentage
   };
