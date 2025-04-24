@@ -14,7 +14,7 @@ export const ButtonsCardTask = ({iconState,handleChange,handleNewTask,indexCard}
 
   const handleCardTask = async () => {
     if(!iconState.showTrashIcon) {
-      deleteCardTask(indexCard);
+      await deleteCardTask(indexCard);
     }else{
       await handleNewTask()
     }

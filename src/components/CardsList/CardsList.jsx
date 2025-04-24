@@ -13,8 +13,8 @@ export const CardsList = () => {
       <section className="container container-cardslist justify-content-center align-content-center">
         {
           cardTasksItem?.cardsTasks?.length > 0 ? (
-            cardTasksItem.cardsTasks.map((cardTasks, index) => {
-              return <CardTasks key={index} cardTasks={cardTasks} indexCard={index}/>
+            cardTasksItem.cardsTasks.map((cardTasks) => {
+              return <CardTasks key={cardTasks.id} cardTasks={cardTasks} indexCard={cardTasks.id}/>
             })
           ) : (
             <CardNoTasksAvaible />
