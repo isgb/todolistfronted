@@ -49,6 +49,17 @@ export const CardTasksProvider = ({ children }) => {
     });      
   }
 
+  const handleChangeCardTaskDescription = async (descriptionModified, index) => {
+    const updatedCardsTasks = cardTasksItem.cardsTasks.map((card) =>
+      card.id === index ? { ...card, description: descriptionModified } : card
+    );
+
+    setCardTasksItem({
+      ...cardTasksItem,
+      cardsTasks: updatedCardsTasks,
+    });
+  }
+
   useEffect(() => {
     const formatCardsDataWithIds = (data) => {
       return {
@@ -85,7 +96,8 @@ export const CardTasksProvider = ({ children }) => {
         setCardTasksItem,
         newCardTask,
         deleteCardTask,
-        handleChangeCardTaskTitle
+        handleChangeCardTaskTitle,
+        handleChangeCardTaskDescription
       }}
     >
       {children}

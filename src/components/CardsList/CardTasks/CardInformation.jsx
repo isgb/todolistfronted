@@ -4,7 +4,8 @@ import { useCardTasksContext } from '../../../context/CardTasksContext';
 export const CardInformation = ({ title, description, indexCard }) => {
 
   const [changeToInput, setChangeToInput] = useState(false)
-   const {handleChangeCardTaskTitle} = useCardTasksContext();
+  const [changeTextArea, setChangeTextArea] = useState(false)
+  const { handleChangeCardTaskTitle, handleChangeCardTaskDescription } = useCardTasksContext();
 
   return (
     <div className="col-7 card-information">
@@ -15,7 +16,7 @@ export const CardInformation = ({ title, description, indexCard }) => {
             defaultValue={title}
             type="text"
             className="form-control"
-            onBlur={(e) =>{
+            onBlur={(e) => {
               handleChangeCardTaskTitle(e.target.value, indexCard)
               setChangeToInput(!changeToInput)
             }}
@@ -31,18 +32,44 @@ export const CardInformation = ({ title, description, indexCard }) => {
             placeholder="Write a title"
           />
         ) :
-        (
-          <h4
-            onClick={() => setChangeToInput(!changeToInput)}
+          (
+            <h4
+              onClick={() => setChangeToInput(!changeToInput)}
+            >
+              {title || "Agregar un titulo"}
+            </h4>
+          )
+      }
+
+      {
+        changeTextArea ? (
+          <textarea
+            defaultValue={description}
+            className="form-control"
+            onBlur={(e) => {
+              handleChangeCardTaskDescription(e.target.value, indexCard);
+              setChangeTextArea(!changeTextArea);
+            }}
+            onKeyDown={(e) => {
+              if (e.key === "Enter") {
+                handleChangeCardTaskDescription(e.target.value, indexCard);
+                setChangeTextArea(!changeTextArea);
+              }
+            }}
+            autoFocus
+            onClick={(e) => e.stopPropagation()}
+            onChange={(e) => handleChangeCardTaskDescription(e.target.value, indexCard)}
+            placeholder="Write a description"
+          />
+        ) : (
+          <p
+            onClick={() => setChangeTextArea(!changeTextArea)}
           >
-            {title || "Agregar un titulo"}
-          </h4>
+            {description || "Add a description"}
+          </p>
         )
       }
 
-      <p>
-        {description || "Agregar una descripcion"}
-      </p>
     </div>
   )
 }
