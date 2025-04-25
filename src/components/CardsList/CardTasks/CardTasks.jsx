@@ -13,7 +13,7 @@ export const CardTasks = ({ cardTasks, indexCard }) => {
 
   const handleNewTask = () => {
     const newTask = {
-      description: "Lorem ipsum dolor sit amet consectetur.",
+      description: "Write a description",
       isCompleted: false,
     };
 

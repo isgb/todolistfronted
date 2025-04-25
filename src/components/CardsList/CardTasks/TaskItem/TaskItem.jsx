@@ -49,6 +49,16 @@ export const TaskItem = ({ task, setTasksList, tasks, indexItem }) => {
               handleChangeDescription(e.target.value);
               setChangeToInput(!changeToInput);
             }}
+            onKeyDown={(e) => {
+              if (e.key === "Enter") {
+                handleChangeDescription(e.target.value);
+                setChangeToInput(!changeToInput);
+              }
+            }}
+            autoFocus
+            onClick={(e) => e.stopPropagation()}
+            onChange={(e) => handleChangeDescription(e.target.value)}
+            placeholder="Add a description"
           />
         ) : (
           <h4

@@ -13,7 +13,7 @@ export const CardTasksProvider = ({ children }) => {
     const newCardTask = {
       id: uuidv4(),
       title: "New Tasks List",
-      description: "Lorem ipsum dolor sit amet consectetur adipisicing elit.",
+      description: "Write a description",
       tasks: [],
     };
 

@@ -19,6 +19,16 @@ export const CardInformation = ({ title, description, indexCard }) => {
               handleChangeCardTaskTitle(e.target.value, indexCard)
               setChangeToInput(!changeToInput)
             }}
+            onKeyDown={(e) => {
+              if (e.key === "Enter") {
+                handleChangeCardTaskTitle(e.target.value, indexCard)
+                setChangeToInput(!changeToInput)
+              }
+            }}
+            autoFocus
+            onClick={(e) => e.stopPropagation()}
+            onChange={(e) => handleChangeCardTaskTitle(e.target.value, indexCard)}
+            placeholder="Write a title"
           />
         ) :
         (
