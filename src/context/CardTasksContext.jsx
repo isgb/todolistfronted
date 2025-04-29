@@ -18,6 +18,7 @@ export const CardTasksProvider = ({ children }) => {
         tasks: [],
       };
 
+      // Crear la card tasks en el backend
       const resp = await createCardTask(newCardTask);
 
       // Agregar la nueva card tasks en la lista de estas mismas
