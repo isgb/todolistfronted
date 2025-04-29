@@ -1,10 +1,10 @@
 import { createContext, useContext, useEffect, useState } from "react";
-import { v4 as uuidv4 } from "uuid";
 import { createCardTask, deleteCardTaskRequest, getListCardTasks } from "../api/cardtasks";
 
 const CardTasksContext = createContext();
 
 export const CardTasksProvider = ({ children }) => {
+  
   // Inicializar state para cardsTaks
   const [cardTasksItem, setCardTasksItem] = useState({});
 
@@ -92,9 +92,7 @@ export const CardTasksProvider = ({ children }) => {
 
     // Obtener la lista de card tasks desde el backend
     const handleData = async () => {
-
       const response = await getListCardTasks();
-
       const data = await response?.data;
       const initialFormattedData = data;
       setCardTasksItem(initialFormattedData);
