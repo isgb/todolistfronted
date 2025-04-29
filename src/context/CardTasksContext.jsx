@@ -1,5 +1,6 @@
 import { createContext, useContext, useEffect, useState } from "react";
 import { v4 as uuidv4 } from "uuid";
+import { createCardTask, getListCardTasks } from "../api/cardtasks";
 
 const CardTasksContext = createContext();
 
@@ -8,20 +9,34 @@ export const CardTasksProvider = ({ children }) => {
   const [cardTasksItem, setCardTasksItem] = useState({});
 
   // Metodo para agregar una card tasks
-  const newCardTask = () => {
-    // Nueva card tasks
-    const newCardTask = {
-      id: uuidv4(),
-      title: "New Tasks List",
-      description: "Write a description",
-      tasks: [],
-    };
+  const newCardTask = async () => {
+    try {
+      // Nueva card tasks
+      const newCardTask = {
+        title: "New Tasks List",
+        description: "Write a description",
+        tasks: [],
+      };
 
-    // Agregar la nueva card tasks en la lista de estas mismas
-    setCardTasksItem({
-      ...cardTasksItem,
-      cardsTasks: [newCardTask, ...cardTasksItem.cardsTasks],
-    });
+      const resp = await createCardTask(newCardTask);
+
+      // Agregar la nueva card tasks en la lista de estas mismas
+      if (resp.status === 200) {
+        setCardTasksItem({
+          ...cardTasksItem,
+          cardsTasks: [
+            {
+              ...newCardTask,
+              id: resp.data.cardtasks._id,
+            },
+            ...cardTasksItem.cardsTasks,
+          ],
+        });
+      }
+
+    } catch (error) {
+      throw new Error("Error al crear la card: ", error);
+    }
   };
 
   // Metodo para borrar una card tasks
@@ -46,7 +61,7 @@ export const CardTasksProvider = ({ children }) => {
     setCardTasksItem({
       ...cardTasksItem,
       cardsTasks: updatedCardsTasks,
-    });      
+    });
   }
 
   const handleChangeCardTaskDescription = async (descriptionModified, index) => {
@@ -75,13 +90,18 @@ export const CardTasksProvider = ({ children }) => {
     };
 
     const handleData = async () => {
-      const response = await fetch("/data/cardsTasks.json", {
-        method: "GET",
-        headers: {
-          "Content-Type": "application/json",
-        },
-      });
-      const data = await response.json();
+
+      const response = await getListCardTasks();
+      console.log("response", response?.data);
+
+      // const response = await fetch("/data/cardsTasks.json", {
+      //   method: "GET",
+      //   headers: {
+      //     "Content-Type": "application/json",
+      //   },
+      // });
+
+      const data = await response?.data;
       const initialFormattedData = await formatCardsDataWithIds(data);
       setCardTasksItem(initialFormattedData);
     };
