@@ -1,6 +1,6 @@
 import { createContext, useContext, useEffect, useState } from "react";
 import { v4 as uuidv4 } from "uuid";
-import { createCardTask, getListCardTasks } from "../api/cardtasks";
+import { createCardTask, deleteCardTaskRequest, getListCardTasks } from "../api/cardtasks";
 
 const CardTasksContext = createContext();
 
@@ -41,17 +41,30 @@ export const CardTasksProvider = ({ children }) => {
   };
 
   // Metodo para borrar una card tasks
-  const deleteCardTask = (idToDelete) => {
-    setCardTasksItem((prevState) => {
-      const updatedCardsTasks = prevState.cardsTasks.filter(
-        (card) => card.id !== idToDelete
-      );
+  const deleteCardTask = async (idToDelete) => {
+    console.log("idToDelete", idToDelete);
+    try {
+      const respDelete = await deleteCardTaskRequest(idToDelete);
 
-      return {
-        ...prevState,
-        cardsTasks: updatedCardsTasks,
-      };
-    });
+      if (respDelete.status === 200) {
+        setCardTasksItem((prevState) => {
+          const updatedCardsTasks = prevState.cardsTasks.filter(
+            (card) => card.id !== idToDelete
+          );
+
+          return {
+            ...prevState,
+            cardsTasks: updatedCardsTasks,
+          };
+        });
+      }
+      else {
+        console.log("Error al eliminar la card task: ", respDelete);
+      }
+
+    } catch (error) {
+      console.error("Error al eliminar la card task: ", error);
+    }
   };
 
   const handleChangeCardTaskTitle = async (titleModified, index) => {
@@ -77,33 +90,14 @@ export const CardTasksProvider = ({ children }) => {
   }
 
   useEffect(() => {
-    const formatCardsDataWithIds = (data) => {
-      return {
-        cardsTasks: data.cardsTasks.map((card) => ({
-          ...card,
-          id: uuidv4(),
-          tasks: card.tasks.map((task) => ({
-            ...task,
-            id: uuidv4(),
-          })),
-        })),
-      };
-    };
 
+    // Obtener la lista de card tasks desde el backend
     const handleData = async () => {
 
       const response = await getListCardTasks();
-      console.log("response", response?.data);
-
-      // const response = await fetch("/data/cardsTasks.json", {
-      //   method: "GET",
-      //   headers: {
-      //     "Content-Type": "application/json",
-      //   },
-      // });
 
       const data = await response?.data;
-      const initialFormattedData = await formatCardsDataWithIds(data);
+      const initialFormattedData = data;
       setCardTasksItem(initialFormattedData);
     };
 

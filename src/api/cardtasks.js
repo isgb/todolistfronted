@@ -16,3 +16,11 @@ export const createCardTask = (data) => {
         },
     });
 }
+
+export const deleteCardTaskRequest = (id) => {
+    return axios.delete(`/remove/${id}`, {
+        headers: {
+            "Content-Type": "application/json",
+        },
+    });
+}
