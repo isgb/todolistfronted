@@ -42,7 +42,6 @@ export const CardTasksProvider = ({ children }) => {
 
   // Metodo para borrar una card tasks
   const deleteCardTask = async (idToDelete) => {
-    console.log("idToDelete", idToDelete);
     try {
       const respDelete = await deleteCardTaskRequest(idToDelete);
 
