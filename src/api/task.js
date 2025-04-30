@@ -23,3 +23,11 @@ export const deleteTaskRequest = (id) => {
     },
   });
 };
+
+export const updateTaskRequest = (id, data) => {
+  return axios.put(`/tasks/update/${id}`, data, {
+    headers: {
+      "Content-Type": "application/json",
+    },
+  });
+};

@@ -2,17 +2,23 @@ import React, { useState } from "react";
 import "../../../../styles/TaskItem.css";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCheck, faTrash } from "@fortawesome/free-solid-svg-icons";
-import { deleteTaskRequest } from "../../../../api/task";
+import { deleteTaskRequest, updateTaskRequest } from "../../../../api/task";
 
 export const TaskItem = ({ task, setTasksList, tasks, indexItem }) => {
   const { description, isCompleted, _id } = task;
   const [changeToInput, setChangeToInput] = useState(false);
 
   const handleChangeIsCompleted = async (check) => {
+
+    const taskCheck = {...task, isCompleted : check }
+    const respTaskUpdated = await updateTaskRequest(_id, taskCheck)
+    console.log(respTaskUpdated)
+    if(respTaskUpdated.status === 200){
     const tasksModified = tasks.map((task, index) => {
       return index === indexItem ? { ...task, isCompleted: check } : task;
     });
     setTasksList(tasksModified);
+  }
   };
 
   const handleDeleteTask = async () => {

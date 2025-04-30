@@ -10,7 +10,6 @@ export const CardTasks = ({ cardTasks, indexCard }) => {
   const { title, description, tasks,id } = cardTasks;
   const { iconState, handleChange } = useHandleIcons();
   const [tasksList, setTasksList] = useState(tasks || []);
-  console.log(tasksList)
 
   const handleNewTask = async () => {
     try {
