@@ -4,29 +4,45 @@ import { ButtonsCardTask } from "./ButtonsCardTask";
 import { useHandleIcons } from "../../../hooks/useHandleIcons";
 import { TasksList } from "./TasksList";
 import { useState } from "react";
+import { createTask } from "../../../api/task";
 
 export const CardTasks = ({ cardTasks, indexCard }) => {
-  
-  const { title, description, tasks } = cardTasks;
+  const { title, description, tasks,id } = cardTasks;
   const { iconState, handleChange } = useHandleIcons();
   const [tasksList, setTasksList] = useState(tasks || []);
+  console.log(tasksList)
 
-  const handleNewTask = () => {
-    const newTask = {
-      description: "Write a description",
-      isCompleted: false,
-    };
+  const handleNewTask = async () => {
+    try {
+      const newTask = {
+        cardTasksId: id,
+        description: "Write a description",
+        isCompleted: false,
+      };
 
-    setTasksList([newTask, ...tasksList]);
+      const resp = await createTask(newTask);
+      if (resp.status === 200) {
+        setTasksList([
+          {
+            ...newTask,
+            id: resp.data.task._id
+          }, 
+          ...tasksList]);
+      }
+    } catch (error) {
+      console.log("Error al crear la taks", error)
+      throw new Error("Ocurrio un error al crear una nueva task");
+    }
   };
 
   const handlePercentageSelectedChecks = () => {
     const totalTasks = tasksList.length;
     const completedTasks = tasksList.filter((task) => task.isCompleted).length;
 
-    const percentage = totalTasks === 0 ? 0 : Math.round((completedTasks / totalTasks) * 100);
+    const percentage =
+      totalTasks === 0 ? 0 : Math.round((completedTasks / totalTasks) * 100);
 
-      return percentage
+    return percentage;
   };
 
   return (
@@ -34,14 +50,12 @@ export const CardTasks = ({ cardTasks, indexCard }) => {
       {/* Card descriptivo de tareas */}
       <div className="row justify-content-between card-tasks">
         {/* CircularProgressBar Component */}
-        <CircularProgressBar 
-          percentage={handlePercentageSelectedChecks()}
-        />
+        <CircularProgressBar percentage={handlePercentageSelectedChecks()} />
         {/* Card de informacion  */}
-        <CardInformation 
-            title={title} 
-            description={description} 
-            indexCard={indexCard}
+        <CardInformation
+          title={title}
+          description={description}
+          indexCard={indexCard}
         />
         {/* Botones de la card */}
         <ButtonsCardTask
@@ -53,9 +67,9 @@ export const CardTasks = ({ cardTasks, indexCard }) => {
       </div>
 
       {/* Lista de tareas */}
-      <TasksList 
-        iconState={iconState} 
-        tasks={tasksList} 
+      <TasksList
+        iconState={iconState}
+        tasks={tasksList}
         setTasksList={setTasksList}
       />
     </div>
