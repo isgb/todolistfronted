@@ -9,16 +9,15 @@ export const TaskItem = ({ task, setTasksList, tasks, indexItem }) => {
   const [changeToInput, setChangeToInput] = useState(false);
 
   const handleChangeIsCompleted = async (check) => {
-
-    const taskCheck = {...task, isCompleted : check }
-    const respTaskUpdated = await updateTaskRequest(_id, taskCheck)
-    console.log(respTaskUpdated)
-    if(respTaskUpdated.status === 200){
-    const tasksModified = tasks.map((task, index) => {
-      return index === indexItem ? { ...task, isCompleted: check } : task;
-    });
-    setTasksList(tasksModified);
-  }
+    const taskCheck = { ...task, isCompleted: check };
+    const respTaskUpdated = await updateTaskRequest(_id, taskCheck);
+    console.log(respTaskUpdated);
+    if (respTaskUpdated.status === 200) {
+      const tasksModified = tasks.map((task, index) => {
+        return index === indexItem ? { ...task, isCompleted: check } : task;
+      });
+      setTasksList(tasksModified);
+    }
   };
 
   const handleDeleteTask = async () => {

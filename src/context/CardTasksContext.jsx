@@ -1,99 +1,118 @@
 import { createContext, useContext, useEffect, useState } from "react";
-import { createCardTask, deleteCardTaskRequest, getListCardTasks } from "../api/cardtasks";
+import {
+  getListCardTasks,
+  saveCardTasksToLocalStorage,
+} from "../helpers/ListCardTasks";
+import { v4 as uuidv4 } from "uuid";
 
 const CardTasksContext = createContext();
 
 export const CardTasksProvider = ({ children }) => {
-  
   // Inicializar state para cardsTaks
   const [cardTasksItem, setCardTasksItem] = useState({});
 
-  // Metodo para agregar una card tasks
   const newCardTask = async () => {
     try {
-      // Nueva card tasks
       const newCardTask = {
         title: "New Tasks List",
         description: "Write a description",
         tasks: [],
       };
 
-      // Crear la card tasks en el backend
-      const resp = await createCardTask(newCardTask);
+      // Crea la nueva lista con la card recién agregada
+      const updatedCardTasks = {
+        ...cardTasksItem,
+        cardsTasks: [
+          {
+            ...newCardTask,
+            id: uuidv4(),
+          },
+          ...(Array.isArray(cardTasksItem.cardsTasks)
+            ? cardTasksItem.cardsTasks
+            : []),
+        ],
+      };
 
-      // Agregar la nueva card tasks en la lista de estas mismas
-      if (resp.status === 200) {
-        setCardTasksItem({
-          ...cardTasksItem,
-          cardsTasks: [
-            {
-              ...newCardTask,
-              id: resp.data.cardtasks._id,
-            },
-            ...cardTasksItem.cardsTasks,
-          ],
-        });
-      }
+      // Actualiza el estado (si usas React)
+      setCardTasksItem(updatedCardTasks);
 
+      // Guarda en localStorage
+      await saveCardTasksToLocalStorage(updatedCardTasks);
     } catch (error) {
-      throw new Error("Error al crear la card: ", error);
+      throw new Error("Error al crear la card: " + error.message);
     }
+  };
+
+  const handleDeleteCarTask = (prevState, idToDelete) => {
+    const updatedCardsTasks = prevState.cardsTasks.filter(
+      (card) => card.id !== idToDelete
+    );
+
+    return {
+      ...prevState,
+      cardsTasks: updatedCardsTasks,
+    };
   };
 
   // Metodo para borrar una card tasks
   const deleteCardTask = async (idToDelete) => {
     try {
-      const respDelete = await deleteCardTaskRequest(idToDelete);
-
-      if (respDelete.status === 200) {
-        setCardTasksItem((prevState) => {
-          const updatedCardsTasks = prevState.cardsTasks.filter(
-            (card) => card.id !== idToDelete
-          );
-
-          return {
-            ...prevState,
-            cardsTasks: updatedCardsTasks,
-          };
-        });
-      }
-      else {
-        console.log("Error al eliminar la card task: ", respDelete);
-      }
-
+      setCardTasksItem((prevState) => {
+        const updatedState = handleDeleteCarTask(prevState, idToDelete);
+        saveCardTasksToLocalStorage(updatedState); // Guarda en localStorage
+        return updatedState;
+      });
     } catch (error) {
       console.error("Error al eliminar la card task: ", error);
     }
   };
 
-  const handleChangeCardTaskTitle = async (titleModified, index) => {
-    const updatedCardsTasks = cardTasksItem.cardsTasks.map((card) =>
-      card.id === index ? { ...card, title: titleModified } : card
-    );
-
-    setCardTasksItem({
-      ...cardTasksItem,
-      cardsTasks: updatedCardsTasks,
-    });
+  const updateCardTitle = async (newTitle, cardId) => {
+    try {
+      const updatedCardsTasks = await cardTasksItem.cardsTasks.map((card) =>
+        card.id === cardId ? { ...card, title: newTitle } : card
+      );
+  
+      return {
+        ...cardTasksItem,
+        cardsTasks: updatedCardsTasks,
+      };
+    } catch (error) {
+      console.log(error);
+    }
   }
 
-  const handleChangeCardTaskDescription = async (descriptionModified, index) => {
+  const handleChangeCardTaskTitle = async (titleModified, cardId) => {
+    // Actualizar titulo en cardtasks
+    const updatedCardsTasks = await updateCardTitle(titleModified, cardId);
+
+    // Actualizar estado
+    setCardTasksItem(updatedCardsTasks);
+
+    // Actualizar lista de cardstasks en localstorage
+    await saveCardTasksToLocalStorage(updatedCardsTasks);
+  };
+
+  const handleChangeCardTaskDescription = async (descriptionModified,index) => {
+
     const updatedCardsTasks = cardTasksItem.cardsTasks.map((card) =>
       card.id === index ? { ...card, description: descriptionModified } : card
     );
 
+    //Actualizar estado
     setCardTasksItem({
       ...cardTasksItem,
       cardsTasks: updatedCardsTasks,
     });
-  }
+    
+    // Actualizar lista de cardstasks en localstorage
+    await saveCardTasksToLocalStorage(updatedCardsTasks);
+  };
 
   useEffect(() => {
-
     // Obtener la lista de card tasks desde el backend
     const handleData = async () => {
-      const response = await getListCardTasks();
-      const data = await response?.data;
+      const data = await getListCardTasks();
       const initialFormattedData = data;
       setCardTasksItem(initialFormattedData);
     };
@@ -109,7 +128,7 @@ export const CardTasksProvider = ({ children }) => {
         newCardTask,
         deleteCardTask,
         handleChangeCardTaskTitle,
-        handleChangeCardTaskDescription
+        handleChangeCardTaskDescription,
       }}
     >
       {children}
