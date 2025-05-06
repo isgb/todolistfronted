@@ -1,0 +1,69 @@
+{
+    "cardsTasks": [
+        {
+            "title": "Add Your Task List 1",
+            "description": "Lorem ipsum dolor sit amet consectetur adipisicing elit.",
+            "tasks": [
+                {
+                    "description": "Task 1",
+                    "isCompleted":false 
+                },
+                {
+                    "description": "Task 2",
+                    "isCompleted":true 
+                },
+                {
+                    "description": "Task 3",
+                    "isCompleted":false 
+                },
+                {
+                    "description": "Task 4",
+                    "isCompleted":true 
+                }
+            ]
+        },
+        {
+            "title": "Add Your Task List 2",
+            "description": "Lorem ipsum dolor sit amet consectetur adipisicing elit.",
+            "tasks": [
+                {
+                    "description": "Task 4",
+                    "isCompleted":true 
+                }
+            ]
+        },
+        {
+            "title": "Add Your Task List 3",
+            "description": "Lorem ipsum dolor sit amet consectetur adipisicing elit.",
+            "tasks": [
+                {
+                    "description": "Task 1",
+                    "isCompleted":false 
+                },
+                {
+                    "description": "Task 4",
+                    "isCompleted":true 
+                }
+            ]
+        },
+        {
+            "title": "Add Your Task List 4",
+            "description": "Lorem ipsum dolor sit amet consectetur adipisicing elit.",
+            "tasks": [
+                {
+                    "description": "Task 1",
+                    "isCompleted":false 
+                },
+                {
+                    "description": "Task 3",
+                    "isCompleted":false 
+                },
+                {
+                    "description": "Task 4",
+                    "isCompleted":true 
+                }
+            ]
+        }
+    ]
+}
+  
