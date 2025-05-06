@@ -40,7 +40,7 @@ export const saveCardTasksToLocalStorage = (cardTasksData) => {
 
 
 // Método para actualizar el localStorage con la nueva lista de tareas
-export const updateLocalStorageWithNewTask = async (id, newTask) => {
+export const updateLocalStorageWithTask = async (id, updateTasksFn) => {
   try {
     // Obtener los datos actuales de las tareas desde el localStorage
     const storedData = await getListCardTasks();
@@ -48,7 +48,10 @@ export const updateLocalStorageWithNewTask = async (id, newTask) => {
     // Actualizar las tareas dentro de la carta correspondiente
     const updatedCardTasks = storedData.cardsTasks.map((cardTask) =>
       cardTask.id === id
-        ? { ...cardTask, tasks: [newTask, ...cardTask.tasks] }  // Insertamos la nueva tarea en la primera posición
+        ? { 
+            ...cardTask, 
+            tasks: updateTasksFn(cardTask.tasks)
+        }  // Insertamos la nueva tarea en la primera posición
         : cardTask
     );
 

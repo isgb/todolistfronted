@@ -6,7 +6,7 @@ import { TasksList } from "./TasksList";
 import { useState } from "react";
 import { v4 as uuidv4 } from "uuid";
 import {
-  updateLocalStorageWithNewTask,
+  updateLocalStorageWithTask,
 } from "../../../helpers/ListCardTasks";
 
 export const CardTasks = ({ cardTasks, indexCard }) => {
@@ -29,7 +29,8 @@ export const CardTasks = ({ cardTasks, indexCard }) => {
       // Actualizar la lista de tareas en el estado
       setTasksList([newTaskWithId, ...tasksList]);
 
-      await updateLocalStorageWithNewTask(id, newTaskWithId)
+      // Actualizar lista en localstorage
+      await updateLocalStorageWithTask(id, (tasksList) => [newTaskWithId, ...tasksList])
 
     } catch (error) {
       console.log("Error al crear la task", error);
@@ -73,6 +74,7 @@ export const CardTasks = ({ cardTasks, indexCard }) => {
         iconState={iconState}
         tasks={tasksList}
         setTasksList={setTasksList}
+        cardTasksId={id}
       />
     </div>
   );

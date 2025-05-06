@@ -99,14 +99,16 @@ export const CardTasksProvider = ({ children }) => {
       card.id === index ? { ...card, description: descriptionModified } : card
     );
 
-    //Actualizar estado
-    setCardTasksItem({
+    // Creamos objeto para actualizar la lista
+    const updatedCardsTasksList = {
       ...cardTasksItem,
       cardsTasks: updatedCardsTasks,
-    });
+    }
+    //Actualizar estado
+    setCardTasksItem(updatedCardsTasksList);
     
     // Actualizar lista de cardstasks en localstorage
-    await saveCardTasksToLocalStorage(updatedCardsTasks);
+    await saveCardTasksToLocalStorage(updatedCardsTasksList);
   };
 
   useEffect(() => {
