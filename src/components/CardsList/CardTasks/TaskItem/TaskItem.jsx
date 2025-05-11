@@ -2,54 +2,40 @@ import React, { useState } from "react";
 import "../../../../styles/TaskItem.css";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCheck, faTrash } from "@fortawesome/free-solid-svg-icons";
-import { updateLocalStorageWithTask } from "../../../../helpers/ListCardTasks";
+import { deleteTaskRequest, updateTaskRequest } from "../../../../api/task";
 
-export const TaskItem = ({ task, setTasksList, tasks, indexItem, cardTasksId }) => {
+export const TaskItem = ({ task, setTasksList, tasks, indexItem }) => {
   const { description, isCompleted, _id } = task;
   const [changeToInput, setChangeToInput] = useState(false);
 
   const handleChangeIsCompleted = async (check) => {
-    
-      const tasksModified = tasks.map((task, index) => {
-        return index === indexItem ? { ...task, isCompleted: check } : task;
-      });
-      setTasksList(tasksModified);
 
-      await updateLocalStorageWithTask(cardTasksId,(tasks) =>
-        tasks.map((task, index) => {
-          return index === indexItem ? { ...task, isCompleted: check } : task;
-        })
-      );
-    
-  };
-
-  const removeTaskByIndex = (indexToRemove) => (tasks) => {
-    return tasks.filter((_, index) => index !== indexToRemove);
+    const taskCheck = {...task, isCompleted : check }
+    const respTaskUpdated = await updateTaskRequest(_id, taskCheck)
+    console.log(respTaskUpdated)
+    if(respTaskUpdated.status === 200){
+    const tasksModified = tasks.map((task, index) => {
+      return index === indexItem ? { ...task, isCompleted: check } : task;
+    });
+    setTasksList(tasksModified);
+  }
   };
 
   const handleDeleteTask = async () => {
-    
-      const tasksModified = await removeTaskByIndex(indexItem);
+    const respDelete = await deleteTaskRequest(_id);
+    if (respDelete.status === 200) {
+      const tasksModified = tasks.filter((task, index) => {
+        return index !== indexItem;
+      });
       setTasksList(tasksModified);
-    
-      await updateLocalStorageWithTask(cardTasksId,await removeTaskByIndex(indexItem));
-  };
-
-  const updateTaskDescriptionByIndex = (indexToUpdate, newDescription) => (tasks) => {
-    return tasks.map((task, index) => 
-      index === indexToUpdate 
-        ? { ...task, description: newDescription } 
-        : task
-    );
+    }
   };
 
   const handleChangeDescription = async (description) => {
-
-    const tasksModified = await updateTaskDescriptionByIndex(indexItem, description);
+    const tasksModified = tasks.map((task, index) => {
+      return index === indexItem ? { ...task, description: description } : task;
+    });
     setTasksList(tasksModified);
-
-    await updateLocalStorageWithTask(cardTasksId, await updateTaskDescriptionByIndex(indexItem, description));
-
   };
 
   return (

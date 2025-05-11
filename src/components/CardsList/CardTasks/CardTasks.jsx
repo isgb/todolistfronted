@@ -4,17 +4,13 @@ import { ButtonsCardTask } from "./ButtonsCardTask";
 import { useHandleIcons } from "../../../hooks/useHandleIcons";
 import { TasksList } from "./TasksList";
 import { useState } from "react";
-import { v4 as uuidv4 } from "uuid";
-import {
-  updateLocalStorageWithTask,
-} from "../../../helpers/ListCardTasks";
+import { createTask } from "../../../api/task";
 
 export const CardTasks = ({ cardTasks, indexCard }) => {
-  const { title, description, tasks, id } = cardTasks;
+  const { title, description, tasks,id } = cardTasks;
   const { iconState, handleChange } = useHandleIcons();
   const [tasksList, setTasksList] = useState(tasks || []);
 
-  // Método para manejar la creación de una nueva tarea y actualizar el localStorage
   const handleNewTask = async () => {
     try {
       const newTask = {
@@ -23,18 +19,18 @@ export const CardTasks = ({ cardTasks, indexCard }) => {
         isCompleted: false,
       };
 
-      // Crear una nueva tarea con un id único
-      const newTaskWithId = { ...newTask, id: uuidv4() };
-
-      // Actualizar la lista de tareas en el estado
-      setTasksList([newTaskWithId, ...tasksList]);
-
-      // Actualizar lista en localstorage
-      await updateLocalStorageWithTask(id, (tasksList) => [newTaskWithId, ...tasksList])
-
+      const resp = await createTask(newTask);
+      if (resp.status === 200) {
+        setTasksList([
+          {
+            ...newTask,
+            id: resp.data.task._id
+          }, 
+          ...tasksList]);
+      }
     } catch (error) {
-      console.log("Error al crear la task", error);
-      throw new Error("Ocurrió un error al crear una nueva task");
+      console.log("Error al crear la taks", error)
+      throw new Error("Ocurrio un error al crear una nueva task");
     }
   };
 
@@ -74,7 +70,6 @@ export const CardTasks = ({ cardTasks, indexCard }) => {
         iconState={iconState}
         tasks={tasksList}
         setTasksList={setTasksList}
-        cardTasksId={id}
       />
     </div>
   );

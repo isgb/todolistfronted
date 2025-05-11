@@ -1,74 +1,29 @@
-/* Extra small devices (phones, less than 576px) */
-/* No media query needed since this is the default */
-
-/* Small devices (landscape phones, <=576px) */
-@media (max-width: 576px) {
-    .task-container {
-        max-width: 85%;
+/* Pantallas extra grandes */
+@media (min-width: 1400px){
+    .container-buttons-card-tasks {
+        position: relative; /* Mantiene referencia para elementos absolutos */
     }
-}
-
-/* Small devices (landscape phones, <=576px) */
-@media (min-width: 576px) {
- 
-}
-
-/* Small devices (landscape phones, ≥576px) */
-@media (min-width: 576px) {
     
-}
-
-/* Medium devices (tablets, ≥768px) */
-@media (min-width: 768px) {
-   
-}
-
-/* Large devices (desktops, ≥992px) */
-@media (min-width: 992px) {
-    /* estilos */
-}
-
-/* Extra large devices (large desktops, ≥1200px) */
-@media (min-width: 1200px) {
-    /* estilos */
-}
-
-/* Pantallas extra grandes */
-@media (min-width: 1400px) {
-    .container-buttons-card-tasks {
-        position: relative;
-        /* Mantiene referencia para elementos absolutos */
-    }
-
     .iconButton.ms-3 {
         position: absolute;
-        top: 75px;
-        /* Lo eleva sobre la card */
-        left: 51%;
-        /* Centra el ícono */
-        transform: translateX(-50%);
-        /* Ajusta la posición horizontal */
-        z-index: 10;
-        /* Lo pone encima */
+        top: 75px; /* Lo eleva sobre la card */
+        left: 51%; /* Centra el ícono */
+        transform: translateX(-50%); /* Ajusta la posición horizontal */
+        z-index: 10; /* Lo pone encima */
     }
 }
 
 /* Pantallas extra grandes */
-@media (min-width: 1500px) {
+@media (min-width: 1500px){
     .container-buttons-card-tasks {
-        position: relative;
-        /* Mantiene referencia para elementos absolutos */
+        position: relative; /* Mantiene referencia para elementos absolutos */
     }
-
+    
     .iconButton.ms-3 {
         position: absolute;
-        top: 62px;
-        /* Lo eleva sobre la card */
-        left: 51%;
-        /* Centra el ícono */
-        transform: translateX(-50%);
-        /* Ajusta la posición horizontal */
-        z-index: 10;
-        /* Lo pone encima */
+        top: 62px; /* Lo eleva sobre la card */
+        left: 51%; /* Centra el ícono */
+        transform: translateX(-50%); /* Ajusta la posición horizontal */
+        z-index: 10; /* Lo pone encima */
     }
 }

@@ -1,7 +1,7 @@
 import { useId } from "react";
 import { TaskItem } from "./TaskItem/TaskItem";
 
-export const TasksList = ({ iconState, tasks, setTasksList,cardTasksId }) => {
+export const TasksList = ({ iconState, tasks, setTasksList }) => {
   const id = useId();
 
   return (
@@ -15,7 +15,6 @@ export const TasksList = ({ iconState, tasks, setTasksList,cardTasksId }) => {
               setTasksList={setTasksList} 
               tasks={tasks} 
               indexItem={index} 
-              cardTasksId={cardTasksId}
           />
         ))}
     </>
