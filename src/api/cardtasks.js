@@ -24,3 +24,18 @@ export const deleteCardTaskRequest = (id) => {
     },
   });
 };
+
+export const updateCardTask = async (id, data) => {
+  try {
+    const response = await axios.put(`/cardtasks/update/${id}`, data, {
+      headers: {
+        "Content-Type": "application/json",
+      },
+    });
+    return response.data;
+  } catch (error) {
+    console.error("Error al actualizar la tarjeta de tarea:", error);
+    throw error;
+  }
+};
+

@@ -12,7 +12,6 @@ export const TaskItem = ({ task, setTasksList, tasks, indexItem }) => {
 
     const taskCheck = {...task, isCompleted : check }
     const respTaskUpdated = await updateTaskRequest(_id, taskCheck)
-    console.log(respTaskUpdated)
     if(respTaskUpdated.status === 200){
     const tasksModified = tasks.map((task, index) => {
       return index === indexItem ? { ...task, isCompleted: check } : task;
@@ -32,10 +31,13 @@ export const TaskItem = ({ task, setTasksList, tasks, indexItem }) => {
   };
 
   const handleChangeDescription = async (description) => {
+    console.log("id",task)
     const tasksModified = tasks.map((task, index) => {
       return index === indexItem ? { ...task, description: description } : task;
     });
     setTasksList(tasksModified);
+    const taskUpdated = { ...task, description: description }
+    await updateTaskRequest(_id, taskUpdated)
   };
 
   return (

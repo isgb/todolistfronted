@@ -1,5 +1,5 @@
 import { createContext, useContext, useEffect, useState } from "react";
-import { createCardTask, deleteCardTaskRequest, getListCardTasks } from "../api/cardtasks";
+import { createCardTask, deleteCardTaskRequest, getListCardTasks, updateCardTask } from "../api/cardtasks";
 
 const CardTasksContext = createContext();
 
@@ -66,27 +66,76 @@ export const CardTasksProvider = ({ children }) => {
     }
   };
 
-  const handleChangeCardTaskTitle = async (titleModified, index) => {
+const handleChangeCardTaskTitle = async (titleModified, index) => {
+  try {
+    // Encontrar la tarjeta actualizada
+    const updatedCard = cardTasksItem.cardsTasks.find((card) => card.id === index);
+
+    if (!updatedCard) {
+      console.error("No se encontró la tarjeta con el índice proporcionado.");
+      return;
+    }
+
+    // Actualizar título y conservar la descripción existente
+    const updatedData = { 
+      title: titleModified, 
+      description: updatedCard.description 
+    };
+
+    // Actualizar el estado local
     const updatedCardsTasks = cardTasksItem.cardsTasks.map((card) =>
-      card.id === index ? { ...card, title: titleModified } : card
+      card.id === index ? { ...card, ...updatedData } : card
     );
 
     setCardTasksItem({
       ...cardTasksItem,
       cardsTasks: updatedCardsTasks,
     });
-  }
 
-  const handleChangeCardTaskDescription = async (descriptionModified, index) => {
+    // Enviar la actualización al backend
+    await updateCardTask(index, updatedData);
+
+    console.log("Título actualizado exitosamente");
+  } catch (error) {
+    console.error("Error al actualizar el título:", error);
+  }
+};
+
+const handleChangeCardTaskDescription = async (descriptionModified, index) => {
+  try {
+
+    // Encontrar la tarjeta actualizada
+    const updatedCard = cardTasksItem.cardsTasks.find((card) => card.id === index);
+
+    if (!updatedCard) {
+      console.error("No se encontró la tarjeta con el índice proporcionado.");
+      return;
+    }
+
+    // Actualizar descripción y conservar el título existente
+    const updatedData = { 
+      title: updatedCard.title, 
+      description: descriptionModified 
+    };
+
+    // Actualizar el estado local
     const updatedCardsTasks = cardTasksItem.cardsTasks.map((card) =>
-      card.id === index ? { ...card, description: descriptionModified } : card
+      card.id === index ? { ...card, ...updatedData } : card
     );
 
     setCardTasksItem({
       ...cardTasksItem,
       cardsTasks: updatedCardsTasks,
     });
+
+    // Enviar la actualización al backend
+    await updateCardTask(index, updatedData);
+
+    console.log("Descripción actualizada exitosamente");
+  } catch (error) {
+    console.error("Error al actualizar la descripción:", error);
   }
+};
 
   useEffect(() => {
 

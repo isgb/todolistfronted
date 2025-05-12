@@ -21,10 +21,11 @@ export const CardTasks = ({ cardTasks, indexCard }) => {
 
       const resp = await createTask(newTask);
       if (resp.status === 200) {
+        console.log(resp.data.task._id)
         setTasksList([
           {
             ...newTask,
-            id: resp.data.task._id
+            _id: resp.data.task._id
           }, 
           ...tasksList]);
       }
