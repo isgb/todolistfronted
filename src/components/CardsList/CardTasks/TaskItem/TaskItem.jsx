@@ -8,36 +8,23 @@ export const TaskItem = ({ task, setTasksList, tasks, indexItem }) => {
   const { description, isCompleted, _id } = task;
   const [changeToInput, setChangeToInput] = useState(false);
 
-  const handleChangeIsCompleted = async (check) => {
-
-    const taskCheck = {...task, isCompleted : check }
-    const respTaskUpdated = await updateTaskRequest(_id, taskCheck)
-    if(respTaskUpdated.status === 200){
-    const tasksModified = tasks.map((task, index) => {
-      return index === indexItem ? { ...task, isCompleted: check } : task;
-    });
-    setTasksList(tasksModified);
-  }
-  };
-
   const handleDeleteTask = async () => {
     const respDelete = await deleteTaskRequest(_id);
     if (respDelete.status === 200) {
-      const tasksModified = tasks.filter((task, index) => {
-        return index !== indexItem;
-      });
+      const tasksModified = tasks.filter((_, index) => index !== indexItem);
       setTasksList(tasksModified);
     }
   };
 
-  const handleChangeDescription = async (description) => {
-    console.log("id",task)
-    const tasksModified = tasks.map((task, index) => {
-      return index === indexItem ? { ...task, description: description } : task;
-    });
-    setTasksList(tasksModified);
-    const taskUpdated = { ...task, description: description }
-    await updateTaskRequest(_id, taskUpdated)
+  const handleChangeTask = async (label, value) => {
+    const taskCheck = { ...task, [label]: value };
+    const respTaskUpdated = await updateTaskRequest(_id, taskCheck);
+    if (respTaskUpdated.status === 200) {
+      const tasksModified = tasks.map((task, index) =>
+        index === indexItem ? { ...task, [label]: value } : task
+      );
+      setTasksList(tasksModified);
+    }
   };
 
   return (
@@ -45,7 +32,7 @@ export const TaskItem = ({ task, setTasksList, tasks, indexItem }) => {
       <div className="iconButton col-2 d-flex justify-content-center align-items-center">
         <FontAwesomeIcon
           icon={faCheck}
-          onClick={() => handleChangeIsCompleted(!isCompleted)}
+          onClick={() => handleChangeTask("check", !isCompleted)}
           className={`icon-checkbox ${
             isCompleted ? "color-check-change" : "color-check-principal"
           }`}
@@ -59,26 +46,25 @@ export const TaskItem = ({ task, setTasksList, tasks, indexItem }) => {
             className="form-control"
             defaultValue={description}
             onBlur={(e) => {
-              handleChangeDescription(e.target.value);
-              setChangeToInput(!changeToInput);
+              handleChangeTask("description", e.target.value);
+              setChangeToInput(false);
             }}
             onKeyDown={(e) => {
               if (e.key === "Enter") {
-                handleChangeDescription(e.target.value);
-                setChangeToInput(!changeToInput);
+                handleChangeTask("description", e.target.value);
+                setChangeToInput(false);
               }
             }}
             autoFocus
             onClick={(e) => e.stopPropagation()}
-            onChange={(e) => handleChangeDescription(e.target.value)}
             placeholder="Add a description"
           />
         ) : (
           <h4
             className={isCompleted ? "text-decoration-line-through" : ""}
-            onClick={() => setChangeToInput(!changeToInput)}
+            onClick={() => setChangeToInput(true)}
           >
-            {description || "Add an description"}
+            {description || "Add a description"}
           </h4>
         )}
       </div>
@@ -87,7 +73,7 @@ export const TaskItem = ({ task, setTasksList, tasks, indexItem }) => {
         <FontAwesomeIcon
           icon={faTrash}
           className="icon-trash-task"
-          onClick={() => handleDeleteTask()}
+          onClick={handleDeleteTask}
         />
       </div>
     </section>
