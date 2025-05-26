@@ -10,9 +10,7 @@
 
 /* Small devices (landscape phones, <=576px) */
 @media (min-width: 576px) {
-     .task-container {
-        max-width: 85%;
-    }
+ 
 }
 
 /* Small devices (landscape phones, ≥576px) */
@@ -22,13 +20,12 @@
 
 /* Medium devices (tablets, ≥768px) */
 @media (min-width: 768px) {
-  
+   
 }
 
 /* Large devices (desktops, ≥992px) */
 @media (min-width: 992px) {
     /* estilos */
-
 }
 
 /* Extra large devices (large desktops, ≥1200px) */
