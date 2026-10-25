@@ -2,10 +2,9 @@ import React from 'react'
 
 export const CardNoTasksAvaible = () => {
     return (
-        <div className="card no-tasks-card">
-            <div className="card-body text-center">
-                <p className="card-text">No tasks available</p>
-            </div>
+        <div className="status-card">
+            <p className="status-card-title">No task lists yet</p>
+            <p className="status-card-text">Use the New button to create your first list.</p>
         </div>
     )
 }

@@ -1,37 +1,188 @@
-.container-cardslist {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    position: absolute;
-    top: 120px;
+/* Lista de cards: sube sobre la franja naranja del header */
+.cards-list {
+    display: grid;
+    gap: 1.25rem;
+    align-items: start;
+    margin-top: -3rem;
+    padding: 0 var(--panel-padding) 2rem;
 }
 
+.container-card-tasks {
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+    min-width: 0;
+}
+
+/* Card: progreso | información | acciones */
 .card-tasks {
-    background-color: #FEFEFE;
-    border-radius: 18px;
-    width: 90%;
-    margin-bottom: 3%;
-    box-shadow: 2px 2px 3px rgba(0.6, 0, 0, 0.2);
+    display: grid;
+    grid-template-columns: auto minmax(0, 1fr) auto;
+    align-items: center;
+    gap: 0.875rem;
+    min-height: 6.5rem;
+    padding-left: 0.875rem;
+    background-color: var(--color-surface);
+    border-radius: var(--radius-card);
+    box-shadow: var(--shadow-card);
 }
 
-.card-information > h4 {
-    font-size: 14px;
-    margin-top: 14px;
-    font-weight: 900;
+.card-progress {
+    width: 4rem;
+    flex-shrink: 0;
 }
 
-.card-information > p {
-    font-size: 10px;
+.card-progress .CircularProgressbar-text {
+    font-weight: 700;
+    dominant-baseline: central;
+}
+
+.card-information {
+    min-width: 0;
+    padding-block: 0.875rem;
+}
+
+.card-title {
+    margin-top: 0;
+    margin-bottom: 0.25rem;
+    font-size: 1rem;
+    font-weight: 700;
+    line-height: 1.35;
+    overflow-wrap: anywhere;
+}
+
+.card-description {
     margin: 0;
-    margin-bottom: 14px;
+    color: var(--color-text-muted);
+    font-size: 0.875rem;
+    line-height: 1.5;
+    overflow-wrap: anywhere;
 }
 
-.container-card-tasks{
+.card-title-input,
+.card-description-input {
+    font-size: 0.9375rem;
+}
+
+.card-title-input {
+    margin-bottom: 0.375rem;
+    font-weight: 700;
+}
+
+.card-description-input {
+    resize: vertical;
+}
+
+/* Confirmación de borrado */
+.card-delete-confirm {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    gap: 0.75rem 1rem;
+    padding: 0.875rem 1rem;
+    background-color: var(--color-danger-soft);
+    border-radius: var(--radius-card);
+}
+
+.card-delete-confirm-text {
+    flex: 1 1 12rem;
+    margin: 0;
+    font-size: 0.9375rem;
+    line-height: 1.45;
+    overflow-wrap: anywhere;
+}
+
+.card-delete-confirm-actions {
+    display: flex;
+    gap: 0.5rem;
+}
+
+.cards-error {
+    grid-column: 1 / -1;
+    margin: 0;
+    padding: 0.625rem 1rem;
+    color: var(--color-danger);
+    background-color: var(--color-danger-soft);
+    font-size: 0.875rem;
+    text-align: center;
+    border-radius: var(--radius-card);
+    box-shadow: var(--shadow-card);
+}
+
+/* Estados: vacío, error y carga */
+.status-card {
     display: flex;
     flex-direction: column;
-    justify-content: center;
-    align-content: center;
     align-items: center;
-    margin-bottom: 15px;
+    gap: 0.75rem;
+    padding: 1.75rem 1.25rem;
+    text-align: center;
+    background-color: var(--color-surface);
+    border-radius: var(--radius-card);
+    box-shadow: var(--shadow-card);
+}
+
+.status-card-title {
+    margin: 0;
+    font-size: 1.0625rem;
+    font-weight: 700;
+}
+
+.status-card-text {
+    max-width: 32ch;
+    margin: 0;
+    color: var(--color-text-muted);
+    font-size: 0.9375rem;
+    line-height: 1.5;
+}
+
+.cards-loading {
+    display: contents;
+}
+
+.card-skeleton {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    min-height: 6.5rem;
+    padding: 0.875rem;
+    background-color: var(--color-surface);
+    border-radius: var(--radius-card);
+    box-shadow: var(--shadow-card);
+}
+
+.card-skeleton-circle,
+.card-skeleton-line {
+    background-color: var(--color-track);
+    animation: skeleton-pulse 1.2s ease-in-out infinite alternate;
+}
+
+.card-skeleton-circle {
+    width: 4rem;
+    height: 4rem;
+    border-radius: 50%;
+    flex-shrink: 0;
+}
+
+.card-skeleton-lines {
+    display: flex;
+    flex-direction: column;
+    gap: 0.625rem;
+    flex: 1;
+}
+
+.card-skeleton-line {
+    height: 0.875rem;
+    width: 70%;
+    border-radius: 999px;
+}
+
+.card-skeleton-line-short {
+    width: 45%;
+}
+
+@keyframes skeleton-pulse {
+    from { opacity: 1; }
+    to { opacity: 0.45; }
 }

@@ -1,22 +1,27 @@
-import { useId } from "react";
 import { TaskItem } from "./TaskItem/TaskItem";
 
-export const TasksList = ({ iconState, tasks, setTasksList }) => {
-  const id = useId();
+export const TasksList = ({ id, iconState, tasks, setTasksList, onTaskError }) => {
+  if (!iconState.showIconAngle) return null;
+
+  if (tasks.length === 0) {
+    return (
+      <p id={id} className="tasks-empty">
+        No tasks yet. Use the + button to add one.
+      </p>
+    );
+  }
 
   return (
-    <>
-      {iconState.showIconAngle &&
-        tasks.length > 0 &&
-        tasks.map((task, index) => (
-          <TaskItem 
-              key={`${id}-${index}`} 
-              task={task} 
-              setTasksList={setTasksList} 
-              tasks={tasks} 
-              indexItem={index} 
-          />
-        ))}
-    </>
+    <ul id={id} className="tasks-list">
+      {tasks.map((task, index) => (
+        <TaskItem
+          key={task._id}
+          task={task}
+          index={index}
+          setTasksList={setTasksList}
+          onTaskError={onTaskError}
+        />
+      ))}
+    </ul>
   );
 };

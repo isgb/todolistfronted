@@ -1,48 +1,134 @@
-.task{
-    max-width: 75%;
-}
-.card-task {
-    background-color: #FEFEFE;
-    border-radius: 18px;
-    width: 90%;
-    margin-bottom: 3%;
-    box-shadow: 2px 2px 3px rgba(0.6, 0, 0, 0.2);
+/*
+ * Lista de tareas. El espacio a la derecha aloja la línea conectora que baja
+ * desde el botón de desplegar de la card (como en el diseño de referencia).
+ */
+.tasks-list {
+    --connector-x: calc(0.625rem + var(--tap-size) / 2); /* centro del botón de desplegar */
+    --connector-gap: 0.625rem;
+    --connector-space: calc(var(--connector-x) + 0.875rem); /* ancho reservado a la derecha */
+
+    display: flex;
+    flex-direction: column;
+    gap: var(--connector-gap);
+    margin: 0;
+    padding: 0 var(--connector-space) 0 0.5rem;
+    list-style: none;
 }
 
-.card-task>.iconButton>.icon-checkbox {
-    border-radius: 20%;
-    width: 30px;
-    height: 30px;
-    margin: 15px 15px;
-    padding: 0px;
-    cursor: pointer;
-    height: 29%;
-    padding: 21%;
+.card-task {
+    position: relative;
+    display: grid;
+    grid-template-columns: auto minmax(0, 1fr) auto;
+    align-items: center;
+    gap: 0.75rem;
+    min-height: 3.5rem;
+    padding: 0.5rem 0.5rem 0.5rem 0.625rem;
+    background-color: var(--color-surface);
+    border-radius: 14px;
+    box-shadow: var(--shadow-card);
+}
+
+/* Tramo vertical de la línea conectora */
+.card-task::before {
+    content: "";
+    position: absolute;
+    top: calc(-1 * var(--connector-gap));
+    bottom: calc(-1 * var(--connector-gap));
+    right: calc(-1 * var(--connector-space) + var(--connector-x) - 1px);
+    border-right: 2px solid var(--color-line);
+}
+
+.card-task:first-child::before {
+    top: -0.75rem;
+}
+
+.card-task:last-child::before {
+    bottom: 50%;
+}
+
+/* Tramo horizontal con punto en la unión */
+.card-task::after {
+    content: "";
+    position: absolute;
+    top: calc(50% - 4px);
+    right: calc(-1 * var(--connector-space) + var(--connector-x) - 4px);
+    width: calc(var(--connector-space) - var(--connector-x) + 4px);
+    height: 8px;
+    background:
+        radial-gradient(circle at calc(100% - 4px) 50%, var(--color-panel) 2px, var(--color-line) 2.5px 4px, transparent 4.5px),
+        linear-gradient(var(--color-line), var(--color-line)) left center / calc(100% - 6px) 2px no-repeat;
+}
+
+.icon-checkbox {
+    border-radius: var(--radius-control);
+    font-size: 1rem;
 }
 
 .color-check-principal {
     background-color: #F1F1EF;
-    color: #C3C3C1;
+    color: var(--color-icon);
+    box-shadow: inset 0 0 0 1.5px #A3A39F;
+}
+
+.color-check-principal:hover {
+    background-color: var(--color-brand-soft);
+    color: var(--color-brand-ink);
 }
 
 .color-check-change {
-    background-color: #FFB035;
-    color: #ffffff;
+    background-color: var(--color-brand);
+    color: var(--color-on-brand);
 }
 
 .description-task {
     display: flex;
-    justify-content: flex-start;
-    align-content: center;
     align-items: center;
+    min-width: 0;
 }
 
-.description-task>h4 {
-    font-size: 14px;
-    font-weight: 900;
+.task-text {
     margin: 0;
+    font-size: 0.9375rem;
+    font-weight: 600;
+    line-height: 1.4;
+    overflow-wrap: anywhere;
 }
 
-.icon-trash-task{
-    color: #C3C3C1;
+.is-completed .task-text {
+    color: var(--color-text-muted);
+}
+
+.description-task > .form-control {
+    font-size: 0.9375rem;
+}
+
+.icon-trash-task {
+    border-radius: var(--radius-control);
+    color: var(--color-icon);
+    font-size: 1rem;
+}
+
+.icon-trash-task:hover {
+    color: var(--color-danger);
+    background-color: var(--color-danger-soft);
+}
+
+.tasks-error {
+    margin: 0 0 0.5rem;
+    padding: 0.625rem 1rem;
+    color: var(--color-danger);
+    background-color: var(--color-danger-soft);
+    font-size: 0.875rem;
+    text-align: center;
+    border-radius: 14px;
+}
+
+.tasks-empty {
+    margin: 0;
+    padding: 0.875rem 1rem;
+    color: var(--color-text-muted);
+    font-size: 0.875rem;
+    text-align: center;
+    border: 1.5px dashed var(--color-line);
+    border-radius: 14px;
 }

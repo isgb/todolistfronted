@@ -6,40 +6,42 @@ import {
 } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import "../../../styles/buttonscardtask.css";
-import { useCardTasksContext } from "../../../context/CardTasksContext";
 
-export const ButtonsCardTask = ({iconState,handleChange,handleNewTask,indexCard}) => {
+export const ButtonsCardTask = ({ iconState, handleChange, handleNewTask, onRequestDelete, tasksListId, title }) => {
+  const isExpanded = iconState.showIconAngle;
 
-  const {deleteCardTask} = useCardTasksContext();
-
-  const handleCardTask = async () => {
-    if(!iconState.showTrashIcon) {
-      await deleteCardTask(indexCard);
-    }else{
-      await handleNewTask()
+  // Con la card cerrada el botón borra la card, abierta agrega una tarea
+  const handleCardTask = () => {
+    if (!iconState.showTrashIcon) {
+      onRequestDelete();
+    } else {
+      handleNewTask();
     }
   };
 
   return (
-    <div className="col-2 container-buttons-card-tasks d-flex flex-column justify-content-between align-items-center">
-      {/* Botón Eliminar */}
-      <div className="iconButton ms-1 mb-2">
-        <FontAwesomeIcon
-          icon={!iconState.showTrashIcon ? faTrash : faPlus}
-          className="icon-trash"
-          onClick={handleCardTask}
-        />
-      </div>
+    <div className="card-actions">
+      {/* Botón Eliminar / Agregar tarea */}
+      <button
+        type="button"
+        className="iconButton icon-trash"
+        onClick={handleCardTask}
+        aria-label={iconState.showTrashIcon ? `Add a task to ${title}` : `Delete ${title}`}
+      >
+        <FontAwesomeIcon icon={iconState.showTrashIcon ? faPlus : faTrash} aria-hidden="true" />
+      </button>
 
       {/* Botón Desplegar */}
-      <div className="iconButton ms-3">
-        <FontAwesomeIcon
-          icon={!iconState.showIconAngle ? faAnglesDown : faAnglesUp}
-          className="icon-anglesdown"
-          onClick={handleChange}
-          style={{height: "30px", width: "30px"}}
-        />
-      </div>
+      <button
+        type="button"
+        className="iconButton icon-anglesdown"
+        onClick={handleChange}
+        aria-expanded={isExpanded}
+        aria-controls={tasksListId}
+        aria-label={isExpanded ? `Hide tasks of ${title}` : `Show tasks of ${title}`}
+      >
+        <FontAwesomeIcon icon={isExpanded ? faAnglesUp : faAnglesDown} aria-hidden="true" />
+      </button>
     </div>
   );
 };

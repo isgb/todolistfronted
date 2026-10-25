@@ -1,53 +1,54 @@
-header{
-    background-color: #FFB035;
+.app-header {
+    background-color: var(--color-brand);
+    padding:
+        max(1.75rem, env(safe-area-inset-top))
+        var(--panel-padding)
+        4.5rem;
 }
 
-header > .row {
-    padding-top: 11%;
-    padding-bottom: 20%;
-    margin: auto 2%;
+.app-header-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
 }
 
-.container-menu-and-title{
-    color: #ffffff;
+.app-title {
+    margin: 0;
+    color: var(--color-on-brand);
+    font-size: 1.75rem;
+    font-weight: 700;
+    line-height: 1.2;
+    letter-spacing: -0.01em;
 }
 
-.container-menu-and-title > h3 {
-    padding-left: 17px;
-    font-weight: bolder;
-}
-
-.row > .container-menu-and-title{
-    padding: 0;
-}
-
-.container-button{
+.button-new {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    flex-shrink: 0;
+    min-height: 2.75rem;
+    padding: 0.5rem 1.25rem;
     border: none;
-}
-
-.container-button > button{
-    background-color: white;
-    color: #FFB035;
-    width: 114%;
-    box-shadow: 2px 2px 3px rgba(0.6, 0, 0, 0.2);
-}
-
-.container-button > .btn:hover {
-    background-color: white;
-    color: #FFB035;
-}
-
-.no-active-check:checked+.no-active,
-.no-active.active,
-.no-active.show,
-.no-active:first-child:active,
-:not(.no-active-check)+.no-active:active {
-    background-color: white !important; /* Fondo blanco */
-    color: #FFB035 !important; /* Color del texto */
-    border-color: #FFB035 !important; /* Mantener el borde con el mismo color */
-    box-shadow: none !important; /* Evita el efecto de sombra */
-}
-
-.iconMenu{ 
+    border-radius: 999px;
+    background-color: var(--color-surface);
+    color: var(--color-brand-ink);
+    font: inherit;
+    font-size: 1rem;
+    font-weight: 700;
+    box-shadow: 0 2px 6px rgba(58, 36, 0, 0.18);
     cursor: pointer;
+    transition: background-color 150ms ease-out, transform 150ms ease-out;
+}
+
+.button-new:hover {
+    background-color: var(--color-brand-soft);
+}
+
+.button-new:active {
+    transform: translateY(1px);
+}
+
+.button-new:focus-visible {
+    outline-color: var(--color-on-brand);
 }

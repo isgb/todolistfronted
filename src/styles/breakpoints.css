@@ -1,69 +1,65 @@
-/* Extra small devices (phones, less than 576px) */
-/* No media query needed since this is the default */
+/* Mobile first: los estilos base son para teléfonos (< 576px) */
 
-/* Small devices (landscape phones, <=576px) */
-@media (max-width: 576px) {
-    .task-container {
-        max-width: 85%;
-    }
-}
-
-/* Small devices (landscape phones, ≥576px) */
+/* Desde 576px el panel deja de ocupar toda la pantalla y se vuelve una tarjeta centrada */
 @media (min-width: 576px) {
-    /*  */
+    :root {
+        --panel-padding: 1.75rem;
+    }
+
+    .main-container {
+        padding: clamp(1.5rem, 4vh, 3rem) 1.5rem;
+    }
+
+    .task-container {
+        width: min(100%, 40rem);
+        min-height: min(52rem, calc(100dvh - 2 * clamp(1.5rem, 4vh, 3rem)));
+        border-radius: 2.5rem;
+        box-shadow: 0 4px 8px rgba(58, 36, 0, 0.08);
+        overflow: hidden;
+    }
+
+    .app-header {
+        padding-top: 2.5rem;
+        padding-bottom: 5rem;
+    }
+
+    .app-title {
+        font-size: 2rem;
+    }
+
+    .cards-list {
+        margin-top: -3.5rem;
+        padding-bottom: 2.5rem;
+    }
+
+    .card-tasks {
+        gap: 1.125rem;
+        padding-left: 1rem;
+    }
+
+    .card-progress,
+    .card-skeleton-circle {
+        width: 4.5rem;
+        height: auto;
+    }
+
+    .card-skeleton-circle {
+        height: 4.5rem;
+    }
+
+    .tasks-list {
+        padding-left: 1.5rem;
+    }
 }
 
-/* Medium devices (tablets, ≥768px) */
-@media (min-width: 768px) {
-   /*  */
-}
-
-/* Large devices (desktops, ≥992px) */
-@media (min-width: 992px) {
-    /* estilos */
-}
-
-/* Extra large devices (large desktops, ≥1200px) */
+/* Monitores grandes: dos columnas de cards para aprovechar el ancho */
 @media (min-width: 1200px) {
-    /* estilos */
-}
-
-/* Pantallas extra grandes */
-@media (min-width: 1400px) {
-    .container-buttons-card-tasks {
-        position: relative;
-        /* Mantiene referencia para elementos absolutos */
+    .task-container {
+        width: min(100%, 72rem);
     }
 
-    .iconButton.ms-3 {
-        position: absolute;
-        top: 75px;
-        /* Lo eleva sobre la card */
-        left: 51%;
-        /* Centra el ícono */
-        transform: translateX(-50%);
-        /* Ajusta la posición horizontal */
-        z-index: 10;
-        /* Lo pone encima */
-    }
-}
-
-/* Pantallas extra grandes */
-@media (min-width: 1500px) {
-    .container-buttons-card-tasks {
-        position: relative;
-        /* Mantiene referencia para elementos absolutos */
-    }
-
-    .iconButton.ms-3 {
-        position: absolute;
-        top: 62px;
-        /* Lo eleva sobre la card */
-        left: 51%;
-        /* Centra el ícono */
-        transform: translateX(-50%);
-        /* Ajusta la posición horizontal */
-        z-index: 10;
-        /* Lo pone encima */
+    .cards-list {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 1.5rem;
     }
 }

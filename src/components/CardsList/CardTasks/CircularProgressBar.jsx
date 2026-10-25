@@ -3,18 +3,19 @@ import { CircularProgressbar, buildStyles } from "react-circular-progressbar";
 
 export const CircularProgressBar = ({percentage}) => {
   return (
-    <div className="col-3 porcentaje d-flex justify-content-center align-content-center">
-        <div className="content-circularprogressbar d-flex align-items-center justify-content-center">
-          <CircularProgressbar
-            value={percentage}
-            text={`${percentage}%`}
-            styles={buildStyles({
-              textColor: "#FFB035",
-              pathColor: "#FFB035",
-              trailColor: "#eee",
-            })}
-          />
-        </div>
-      </div>
+    <div className="card-progress">
+      <CircularProgressbar
+        value={percentage}
+        text={`${percentage}%`}
+        strokeWidth={9}
+        styles={buildStyles({
+          textColor: "var(--color-brand-ink)",
+          pathColor: "var(--color-brand)",
+          trailColor: "var(--color-track)",
+          textSize: "24px",
+          pathTransitionDuration: 0.25,
+        })}
+      />
+    </div>
   )
 }

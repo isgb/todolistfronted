@@ -1,4 +1,6 @@
 import React from "react";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faPlus } from "@fortawesome/free-solid-svg-icons";
 import { useCardTasksContext } from "../../context/CardTasksContext";
 
 export const ButtonNew = () => {
@@ -6,13 +8,14 @@ export const ButtonNew = () => {
   const { newCardTask } = useCardTasksContext();
 
   return (
-    <div className="col-auto container-button">
-      <button
-        className="btn btn-outline-light fw-bold py-2 rounded-4 no-active"
-        onClick={() => newCardTask()}
-      >
-        + New
-      </button>
-    </div>
+    <button
+      type="button"
+      className="button-new"
+      onClick={() => newCardTask()}
+      aria-label="Create a new task list"
+    >
+      <FontAwesomeIcon icon={faPlus} aria-hidden="true" />
+      New
+    </button>
   );
 };

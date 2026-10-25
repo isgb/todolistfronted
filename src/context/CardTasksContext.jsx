@@ -1,160 +1,147 @@
-import { createContext, useContext, useEffect, useState } from "react";
+import { createContext, useCallback, useContext, useEffect, useRef, useState } from "react";
 import { createCardTask, deleteCardTaskRequest, getListCardTasks, updateCardTask } from "../api/cardtasks";
 
 const CardTasksContext = createContext();
 
 export const CardTasksProvider = ({ children }) => {
-  
+
   // Inicializar state para cardsTaks
-  const [cardTasksItem, setCardTasksItem] = useState({});
+  const [cardTasksItem, setCardTasksItem] = useState({ cardsTasks: [] });
+  const [isLoading, setIsLoading] = useState(true);
+  const [loadError, setLoadError] = useState(null);
+  const [cardsError, setCardsError] = useState("");
 
-  // Metodo para agregar una card tasks
-  const newCardTask = async () => {
+  // Referencia al estado actual para usarla dentro de callbacks estables
+  const cardTasksRef = useRef(cardTasksItem);
+  cardTasksRef.current = cardTasksItem;
+
+  // Obtener la lista de card tasks desde el backend
+  const loadCardTasks = useCallback(async () => {
+    setIsLoading(true);
+    setLoadError(null);
     try {
-      // Nueva card tasks
-      const newCardTask = {
-        title: "New Tasks List",
-        description: "Write a description",
-        tasks: [],
-      };
-
-      // Crear la card tasks en el backend
-      const resp = await createCardTask(newCardTask);
-
-      // Agregar la nueva card tasks en la lista de estas mismas
-      if (resp.status === 200) {
-        setCardTasksItem({
-          ...cardTasksItem,
-          cardsTasks: [
-            {
-              ...newCardTask,
-              id: resp.data.cardtasks._id,
-            },
-            ...cardTasksItem.cardsTasks,
-          ],
-        });
-      }
-
+      const response = await getListCardTasks();
+      setCardTasksItem({ ...response.data, cardsTasks: response.data?.cardsTasks || [] });
     } catch (error) {
-      throw new Error("Error al crear la card: ", error);
+      console.warn("Error al obtener las card tasks:", error.message);
+      setLoadError("Could not load your task lists. Check your connection and try again.");
+    } finally {
+      setIsLoading(false);
+    }
+  }, []);
+
+  const updateCards = (updateCardsList) =>
+    setCardTasksItem((prevState) => ({
+      ...prevState,
+      cardsTasks: updateCardsList(prevState.cardsTasks),
+    }));
+
+  // Se muestra al instante con un id temporal y se reemplaza por el del servidor.
+  // clientKey mantiene la misma key de React para que la card no se vuelva a montar.
+  const newCardTask = async () => {
+    const temporaryId = `temp-${Date.now()}`;
+    const newCardTask = {
+      title: "New Tasks List",
+      description: "Write a description",
+      tasks: [],
+    };
+
+    setCardsError("");
+    updateCards((cards) => [
+      { ...newCardTask, id: temporaryId, clientKey: temporaryId, isSaving: true },
+      ...cards,
+    ]);
+
+    try {
+      const resp = await createCardTask(newCardTask);
+      updateCards((cards) =>
+        cards.map((card) =>
+          card.id === temporaryId ? { ...card, id: resp.data.cardtasks._id, isSaving: false } : card
+        )
+      );
+    } catch (error) {
+      console.error("Error al crear la card:", error);
+      updateCards((cards) => cards.filter((card) => card.id !== temporaryId));
+      setCardsError("Could not create the list. Please try again.");
     }
   };
 
-  // Metodo para borrar una card tasks
+  // Se oculta al instante; si el servidor falla vuelve a mostrarse con sus tareas
   const deleteCardTask = async (idToDelete) => {
+    const cardToDelete = cardTasksRef.current.cardsTasks.find((card) => card.id === idToDelete);
+    if (!cardToDelete || cardToDelete.isSaving || cardToDelete.isDeleting) return;
+
+    const setIsDeleting = (isDeleting) =>
+      updateCards((cards) =>
+        cards.map((card) => (card.id === idToDelete ? { ...card, isDeleting } : card))
+      );
+
+    setCardsError("");
+    setIsDeleting(true);
+
     try {
-      const respDelete = await deleteCardTaskRequest(idToDelete);
-
-      if (respDelete.status === 200) {
-        setCardTasksItem((prevState) => {
-          const updatedCardsTasks = prevState.cardsTasks.filter(
-            (card) => card.id !== idToDelete
-          );
-
-          return {
-            ...prevState,
-            cardsTasks: updatedCardsTasks,
-          };
-        });
-      }
-      else {
-        console.log("Error al eliminar la card task: ", respDelete);
-      }
-
+      await deleteCardTaskRequest(idToDelete);
+      updateCards((cards) => cards.filter((card) => card.id !== idToDelete));
     } catch (error) {
       console.error("Error al eliminar la card task: ", error);
+      setIsDeleting(false);
+      setCardsError("Could not delete the list. Please try again.");
     }
   };
 
-const handleChangeCardTaskTitle = async (titleModified, index) => {
-  try {
-    // Encontrar la tarjeta actualizada
-    const updatedCard = cardTasksItem.cardsTasks.find((card) => card.id === index);
+  // Actualiza título o descripción de una card (local y backend)
+  const updateCardFields = useCallback(async (cardId, changedFields) => {
+    const cardToUpdate = cardTasksRef.current.cardsTasks.find((card) => card.id === cardId);
 
-    if (!updatedCard) {
-      console.error("No se encontró la tarjeta con el índice proporcionado.");
+    if (!cardToUpdate) {
+      console.error("No se encontró la tarjeta con el id proporcionado.");
       return;
     }
 
-    // Actualizar título y conservar la descripción existente
-    const updatedData = { 
-      title: titleModified, 
-      description: updatedCard.description 
+    // El backend exige título y descripción en cada actualización
+    const updatedData = {
+      title: cardToUpdate.title,
+      description: cardToUpdate.description,
+      ...changedFields,
     };
 
-    // Actualizar el estado local
-    const updatedCardsTasks = cardTasksItem.cardsTasks.map((card) =>
-      card.id === index ? { ...card, ...updatedData } : card
-    );
+    setCardTasksItem((prevState) => ({
+      ...prevState,
+      cardsTasks: prevState.cardsTasks.map((card) =>
+        card.id === cardId ? { ...card, ...changedFields } : card
+      ),
+    }));
 
-    setCardTasksItem({
-      ...cardTasksItem,
-      cardsTasks: updatedCardsTasks,
-    });
-
-    // Enviar la actualización al backend
-    await updateCardTask(index, updatedData);
-
-    console.log("Título actualizado exitosamente");
-  } catch (error) {
-    console.error("Error al actualizar el título:", error);
-  }
-};
-
-const handleChangeCardTaskDescription = async (descriptionModified, index) => {
-  try {
-
-    // Encontrar la tarjeta actualizada
-    const updatedCard = cardTasksItem.cardsTasks.find((card) => card.id === index);
-
-    if (!updatedCard) {
-      console.error("No se encontró la tarjeta con el índice proporcionado.");
-      return;
+    try {
+      await updateCardTask(cardId, updatedData);
+    } catch (error) {
+      console.error("Error al actualizar la card:", error);
     }
+  }, []);
 
-    // Actualizar descripción y conservar el título existente
-    const updatedData = { 
-      title: updatedCard.title, 
-      description: descriptionModified 
-    };
+  const handleChangeCardTaskTitle = useCallback(
+    (titleModified, cardId) => updateCardFields(cardId, { title: titleModified }),
+    [updateCardFields]
+  );
 
-    // Actualizar el estado local
-    const updatedCardsTasks = cardTasksItem.cardsTasks.map((card) =>
-      card.id === index ? { ...card, ...updatedData } : card
-    );
-
-    setCardTasksItem({
-      ...cardTasksItem,
-      cardsTasks: updatedCardsTasks,
-    });
-
-    // Enviar la actualización al backend
-    await updateCardTask(index, updatedData);
-
-    console.log("Descripción actualizada exitosamente");
-  } catch (error) {
-    console.error("Error al actualizar la descripción:", error);
-  }
-};
+  const handleChangeCardTaskDescription = useCallback(
+    (descriptionModified, cardId) => updateCardFields(cardId, { description: descriptionModified }),
+    [updateCardFields]
+  );
 
   useEffect(() => {
-
-    // Obtener la lista de card tasks desde el backend
-    const handleData = async () => {
-      const response = await getListCardTasks();
-      const data = await response?.data;
-      const initialFormattedData = data;
-      setCardTasksItem(initialFormattedData);
-    };
-
-    handleData();
-  }, []);
+    loadCardTasks();
+  }, [loadCardTasks]);
 
   return (
     <CardTasksContext.Provider
       value={{
         cardTasksItem,
         setCardTasksItem,
+        isLoading,
+        loadError,
+        cardsError,
+        loadCardTasks,
         newCardTask,
         deleteCardTask,
         handleChangeCardTaskTitle,

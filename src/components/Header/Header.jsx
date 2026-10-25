@@ -1,14 +1,14 @@
 import React from "react";
-import "../../styles/header.css";
+import "../../styles/Header.css";
 import { IconMenu } from "./IconMenu";
 import { ButtonNew } from "./ButtonNew";
 
 export const Header = () => {
   return (
-    <header className="container">
-      <div className="row justify-content-between">
-        
-        {/* Icono Menú y título */}
+    <header className="app-header">
+      <div className="app-header-row">
+
+        {/* Título de la app */}
         <IconMenu />
 
         {/* Botón Nuevo */}

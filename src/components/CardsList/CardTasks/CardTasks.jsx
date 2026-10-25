@@ -1,37 +1,45 @@
-import { CircularProgressBar } from "./CircularProgressbar";
+import { CircularProgressBar } from "./CircularProgressBar";
 import { CardInformation } from "./CardInformation";
 import { ButtonsCardTask } from "./ButtonsCardTask";
+import { DeleteCardConfirm } from "./DeleteCardConfirm";
 import { useHandleIcons } from "../../../hooks/useHandleIcons";
 import { TasksList } from "./TasksList";
-import { useState } from "react";
+import { useId, useState } from "react";
 import { createTask } from "../../../api/task";
 
 export const CardTasks = ({ cardTasks, indexCard }) => {
-  const { title, description, tasks,id } = cardTasks;
+  const { title, description, tasks, id, isSaving, isDeleting } = cardTasks;
   const { iconState, handleChange } = useHandleIcons();
   const [tasksList, setTasksList] = useState(tasks || []);
+  const [isConfirmingDelete, setIsConfirmingDelete] = useState(false);
+  const [taskError, setTaskError] = useState("");
+  const tasksListId = useId();
 
+  // Se muestra al instante con un id temporal y se reemplaza por el del servidor
   const handleNewTask = async () => {
-    try {
-      const newTask = {
-        cardTasksId: id,
-        description: "Write a description",
-        isCompleted: false,
-      };
+    // La card aún no tiene id del servidor
+    if (isSaving) return;
+    const temporaryId = `temp-${Date.now()}`;
+    const newTask = {
+      cardTasksId: id,
+      description: "Write a description",
+      isCompleted: false,
+    };
 
+    setTaskError("");
+    setTasksList((prevTasks) => [{ ...newTask, _id: temporaryId, isSaving: true }, ...prevTasks]);
+
+    try {
       const resp = await createTask(newTask);
-      if (resp.status === 200) {
-        console.log(resp.data.task._id)
-        setTasksList([
-          {
-            ...newTask,
-            _id: resp.data.task._id
-          }, 
-          ...tasksList]);
-      }
+      setTasksList((prevTasks) =>
+        prevTasks.map((task) =>
+          task._id === temporaryId ? { ...newTask, _id: resp.data.task._id } : task
+        )
+      );
     } catch (error) {
-      console.log("Error al crear la taks", error)
-      throw new Error("Ocurrio un error al crear una nueva task");
+      console.error("Error al crear la task:", error);
+      setTasksList((prevTasks) => prevTasks.filter((task) => task._id !== temporaryId));
+      setTaskError("Could not create the task. Please try again.");
     }
   };
 
@@ -45,10 +53,13 @@ export const CardTasks = ({ cardTasks, indexCard }) => {
     return percentage;
   };
 
+  // Oculta pero montada mientras se borra, para conservar sus tareas si hay que restaurarla
+  if (isDeleting) return null;
+
   return (
-    <div className="container-card-tasks">
+    <article className="container-card-tasks" aria-busy={Boolean(isSaving)}>
       {/* Card descriptivo de tareas */}
-      <div className="row justify-content-between card-tasks">
+      <div className="card-tasks">
         {/* CircularProgressBar Component */}
         <CircularProgressBar percentage={handlePercentageSelectedChecks()} />
         {/* Card de informacion  */}
@@ -56,22 +67,41 @@ export const CardTasks = ({ cardTasks, indexCard }) => {
           title={title}
           description={description}
           indexCard={indexCard}
+          isLocked={Boolean(isSaving)}
         />
         {/* Botones de la card */}
         <ButtonsCardTask
           handleChange={handleChange}
           handleNewTask={handleNewTask}
+          onRequestDelete={() => !isSaving && setIsConfirmingDelete(true)}
           iconState={iconState}
-          indexCard={indexCard}
+          tasksListId={tasksListId}
+          title={title}
         />
       </div>
 
+      {/* Confirmación antes de borrar la card */}
+      {isConfirmingDelete && (
+        <DeleteCardConfirm
+          title={title}
+          totalTasks={tasksList.length}
+          indexCard={indexCard}
+          onCancel={() => setIsConfirmingDelete(false)}
+        />
+      )}
+
+      {taskError && iconState.showIconAngle && (
+        <p className="tasks-error" role="alert">{taskError}</p>
+      )}
+
       {/* Lista de tareas */}
       <TasksList
+        id={tasksListId}
         iconState={iconState}
         tasks={tasksList}
         setTasksList={setTasksList}
+        onTaskError={setTaskError}
       />
-    </div>
+    </article>
   );
 };
