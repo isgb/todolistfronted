@@ -49,6 +49,12 @@
     transform: translateY(1px);
 }
 
+.button-new:disabled {
+    opacity: 0.6;
+    cursor: wait;
+    transform: none;
+}
+
 .button-new:focus-visible {
     outline-color: var(--color-on-brand);
 }

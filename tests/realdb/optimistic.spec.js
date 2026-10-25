@@ -245,6 +245,48 @@ test("crear y borrar tarjetas: instantáneo con servidor lento", async ({ page }
   await expect.poll(() => database.collection("cardtasks").countDocuments({ _id: cardId })).toBe(0);
 });
 
+test("crear una tarjeta mientras carga la lista no la pierde", async ({ page }) => {
+  await delayServer(page, "**/api/cardtasks/list");
+  await page.reload();
+  const newButton = page.getByRole("button", { name: "Create a new task list" });
+  await expect(newButton).toBeDisabled();
+
+  const cardSaved = page.waitForResponse((response) => response.url().includes("/cardtasks/save"));
+  await newButton.click();
+  createdCardIds.push((await (await cardSaved).json()).cardtasks._id);
+
+  await expect(page.locator(".card-title").first()).toHaveText("New Tasks List");
+  await expect(cardsCount(page)).toHaveCount(await database.collection("cardtasks").countDocuments());
+});
+
+// En desarrollo StrictMode carga la lista dos veces. La primera se pide al servidor
+// de inmediato (sin la card nueva) pero su respuesta se entrega tarde a propósito.
+test("una respuesta vieja de la lista no borra una tarjeta recién creada", async ({ page }) => {
+  let listRequests = 0;
+  await page.route("**/api/cardtasks/list", async (route) => {
+    listRequests += 1;
+    const isFirstRequest = listRequests === 1;
+    const response = await route.fetch();
+    if (isFirstRequest) await new Promise((resolve) => setTimeout(resolve, SERVER_DELAY_MS));
+    await route.fulfill({ response });
+  });
+  let listResponses = 0;
+  const bothListsLoaded = page.waitForResponse(
+    (response) => response.url().includes("/cardtasks/list") && ++listResponses === 2
+  );
+  await page.reload();
+
+  const cardSaved = page.waitForResponse((response) => response.url().includes("/cardtasks/save"));
+  await page.getByRole("button", { name: "Create a new task list" }).click();
+  createdCardIds.push((await (await cardSaved).json()).cardtasks._id);
+  await bothListsLoaded;
+  await page.waitForLoadState("networkidle");
+
+  expect(listRequests).toBe(2);
+  await expect(page.locator(".card-title").first()).toHaveText("New Tasks List");
+  await expect(cardsCount(page)).toHaveCount(await database.collection("cardtasks").countDocuments());
+});
+
 test("crear y borrar tarjetas: si falla, se revierte con mensaje", async ({ page }) => {
   await failServer(page, "**/api/cardtasks/save");
   await failServer(page, "**/api/cardtasks/remove/**");

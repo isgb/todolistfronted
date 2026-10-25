@@ -15,18 +15,25 @@ export const CardTasksProvider = ({ children }) => {
   const cardTasksRef = useRef(cardTasksItem);
   cardTasksRef.current = cardTasksItem;
 
+  // Solo se aplica la respuesta de la carga más reciente: una respuesta vieja
+  // (p. ej. StrictMode carga dos veces en desarrollo) borraría las cards recién creadas
+  const latestLoadIdRef = useRef(0);
+
   // Obtener la lista de card tasks desde el backend
   const loadCardTasks = useCallback(async () => {
+    const loadId = ++latestLoadIdRef.current;
     setIsLoading(true);
     setLoadError(null);
     try {
       const response = await getListCardTasks();
+      if (loadId !== latestLoadIdRef.current) return;
       setCardTasksItem({ ...response.data, cardsTasks: response.data?.cardsTasks || [] });
     } catch (error) {
+      if (loadId !== latestLoadIdRef.current) return;
       console.warn("Error al obtener las card tasks:", error.message);
       setLoadError("Could not load your task lists. Check your connection and try again.");
     } finally {
-      setIsLoading(false);
+      if (loadId === latestLoadIdRef.current) setIsLoading(false);
     }
   }, []);
 
